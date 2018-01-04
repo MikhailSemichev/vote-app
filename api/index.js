@@ -27,9 +27,11 @@ app.get('/', (req, res) => {
 require('./routers/topics/topicsRouter')(app);
 // app.use('/api', require('./routers/topics/votesRouter'));
 
-// require('./restApi')(app);
-require('./routers/votes/votesWs')(app);
-app.io.attach(server);
+const socketIo = require('socket.io');
+const io = socketIo();
+io.attach(server);
+
+require('./routers/votes/votesWs')(io);
 
 //
 const port = process.env.PORT || 3333;

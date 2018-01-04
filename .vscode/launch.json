@@ -8,9 +8,10 @@
     {
         "type": "node",
         "request": "launch",
-        "name": "nodemon",
-        "runtimeExecutable": "nodemon",
-        "program": "${workspaceFolder}/app.js",
+        "name": "Nodemon API",
+        "program": "${workspaceRoot}/api/node_modules/nodemon/bin/nodemon.js",
+        "args": ["${workspaceRoot}/api/index.js"],
+        "runtimeArgs": ["--nolazy"],
         "restart": true,
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen"

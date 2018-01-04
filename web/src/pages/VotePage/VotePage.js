@@ -24,6 +24,10 @@ class VotePage extends Component {
         this.disconnect && this.disconnect();
     }
 
+    handleVote = () => {
+        votesStore.vote(1, 2);
+    };
+
     disconnect = null;
 
     async loadTopic() {
@@ -54,7 +58,7 @@ class VotePage extends Component {
                         {topic.candidates.map(c => (
                             <div key={c.name}>
                                 <span>{c.name}</span>
-                                <button>Vote</button>
+                                <button onClick={this.handleVote}>Vote</button>
                                 <span>0</span>
                             </div>
                         ))}

@@ -17,6 +17,7 @@
     "lodash": "^4.17.4",
     "mongoose": "^5.0.0-rc0",
     "nocache": "^2.0.0",
+    "nodemon": "^1.14.7",
     "socket.io": "^2.0.4",
     "ws": "^3.3.3"
   }

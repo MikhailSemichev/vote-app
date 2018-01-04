@@ -11,8 +11,8 @@ async function vote(topicId, candidateName, login) {
     socket.emit('vote', { topicId, candidateName, login });
 }
 
-async function onVote(topicId, cb) {
-    socket = io('http://localhost:3333');
+function onVote(topicId, cb) {
+    socket = io('http://localhost:3333/votes');
 
     socket.on('onVote', topicVotes => {
         cb(topicVotes);
