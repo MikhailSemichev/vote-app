@@ -1,0 +1,19 @@
+{
+  "name": "db",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "init_folder": "node init_folder.js",
+    "run_mongod": "cmd /K \"D:/MongoDB/Server/3.6/bin/mongod.exe -f mongod.conf\"",
+    "start": "npm run init_folder && npm run run_mongod",
+    "init_db": "cmd \"D:/MongoDB/Server/3.6/bin/mongo.exe localhost:27017/votedb mongo_init_db.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cross-env": "^5.1.3",
+    "mkdirp": "^0.5.1",
+    "mongodb": "^3.0.0-rc0"
+  }
+}
