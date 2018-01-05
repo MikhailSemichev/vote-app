@@ -7,12 +7,12 @@ export default {
 
 let socket = null;
 
-async function vote(topicId, candidateName, login) {
-    socket.emit('vote', { topicId, candidateName, login });
+async function vote(topicId, candidateName, login, isVote) {
+    socket.emit('vote', { topicId, candidateName, login, isVote });
 }
 
 function onVote(topicId, cb) {
-    socket = io('http://localhost:3333/votes');
+    socket = io('http://localhost:3333/votes', { query: `topicId=${topicId}` });
 
     socket.on('onVote', topicVotes => {
         cb(topicVotes);

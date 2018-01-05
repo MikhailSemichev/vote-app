@@ -7,8 +7,8 @@ class VotesStore {
     @observable topicVotes = [];
 
     @action
-    async vote(topicId, candidateName) {
-        return votesWs.vote(topicId, candidateName, loginStore.login);
+    async vote(topicId, candidateName, isVote) {
+        return votesWs.vote(topicId, candidateName, loginStore.login, isVote);
     }
 
     onVote(topicId) {

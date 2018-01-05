@@ -4,18 +4,16 @@
     // Для получения дополнительной информации посетите: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        
-    {
-        "type": "node",
-        "request": "launch",
-        "name": "Nodemon API",
-        "program": "${workspaceRoot}/api/node_modules/nodemon/bin/nodemon.js",
-        "args": ["${workspaceRoot}/api/index.js"],
-        "runtimeArgs": ["--nolazy"],
-        "restart": true,
-        "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen"
-    },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "nodemon",
+            "runtimeExecutable": "C:\\Users\\АТТО\\AppData\\Roaming\\npm\\nodemon.cmd",
+            "program": "${workspaceFolder}/api/index.js",
+            "restart": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
         {
             "type": "node",
             "request": "launch",

@@ -15,26 +15,28 @@ class VotePage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.topicId !== prevProps.match.params.topicId) {
+        if (this.getTopicId() !== prevProps.match.params.topicId) {
             this.loadTopic();
         }
     }
 
     componentWillUnmount() {
-        this.disconnect && this.disconnect();
+        this.closeSocket && this.closeSocket();
     }
 
-    handleVote = () => {
-        votesStore.vote(1, 2);
+    handleVote = (candidateName) => {
+        votesStore.vote(this.getTopicId(), candidateName, true);
     };
 
-    disconnect = null;
+    getTopicId() {
+        return this.props.match.params.topicId;
+    }
 
     async loadTopic() {
-        const { topicId } = this.props.match.params;
+        const topicId = this.getTopicId();
 
-        this.disconnect && this.disconnect();
-        this.disconnect = votesStore.onVote(topicId);
+        this.closeSocket && this.closeSocket();
+        this.closeSocket = votesStore.onVote(topicId);
 
         const topic = await topicsStore.getTopic(topicId);
 
@@ -58,7 +60,7 @@ class VotePage extends Component {
                         {topic.candidates.map(c => (
                             <div key={c.name}>
                                 <span>{c.name}</span>
-                                <button onClick={this.handleVote}>Vote</button>
+                                <button onClick={() => this.handleVote(c.name)}>Vote</button>
                                 <span>0</span>
                             </div>
                         ))}
