@@ -15,18 +15,30 @@ async function getTopicVotes(topicId) {
 async function vote(topicId, candidateName, login, isVote) {
     await ensureTopicVotesInCache(topicId);
 
+    const topicVotesCache = cache[topicId];
+
     if (isVote) {
         // Save to Mongo
         const voteItem = new Vote({ topicId, candidateName, login });
         await voteItem.save();
 
         // Save to Cache
-        cache[topicId].push(voteItem);
+        topicVotesCache.push(voteItem);
     } else {
-        // TODO: Remove
+        const voteItem = topicVotesCache.find(v =>
+            v.login === login
+            && v.candidateName === candidateName);
+
+        if (voteItem) {
+            // Remove from Mongo
+            await voteItem.remove();
+
+            // Remove from Cache
+            topicVotesCache.splice(topicVotesCache.indexOf(voteItem), 1);
+        }
     }
 
-    return cache[topicId];
+    return topicVotesCache;
 }
 
 async function ensureTopicVotesInCache(topicId) {

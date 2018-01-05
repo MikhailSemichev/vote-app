@@ -1,3 +1,9 @@
 .vote-page {
+    .is-voted {
+        background-color: gold;
 
+        .vote-btn {
+            background-color: gold;
+        }
+    }
 }

@@ -7,7 +7,7 @@ export default {
 
 let socket = null;
 
-async function vote(topicId, candidateName, login, isVote) {
+function vote(topicId, candidateName, login, isVote) {
     socket.emit('vote', { topicId, candidateName, login, isVote });
 }
 

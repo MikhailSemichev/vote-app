@@ -6,7 +6,7 @@ const topicVotes = [
 ];
 */
 
-module.exports = (ioGlobal) => {
+module.exports = ioGlobal => {
     const io = ioGlobal.of('/votes');
 
     io.on('connection', async socket => {

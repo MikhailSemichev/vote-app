@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
+import cn from 'classnames';
 
-import { topicsStore, votesStore } from '../../stores';
+import { topicsStore, votesStore, loginStore } from '../../stores';
 import './VotePage.css';
 
 @withRouter
@@ -24,8 +25,8 @@ class VotePage extends Component {
         this.closeSocket && this.closeSocket();
     }
 
-    handleVote = (candidateName) => {
-        votesStore.vote(this.getTopicId(), candidateName, true);
+    handleVote = (candidateName, isVote) => {
+        votesStore.vote(this.getTopicId(), candidateName, isVote);
     };
 
     getTopicId() {
@@ -49,19 +50,44 @@ class VotePage extends Component {
     render() {
         const { topic } = this.state;
         const { topicVotes } = votesStore;
+        const { login } = loginStore;
+        let candidatesInfo = [];
+
+        if (topic) {
+            candidatesInfo = topic.candidates.map(c => {
+                const logins = topicVotes
+                    .filter(v => c.name === v.candidateName)
+                    .map(v => v.login);
+
+                return {
+                    name: c.name,
+                    isVoted: logins.includes(login),
+                    logins
+                };
+            });
+            candidatesInfo.sort((c1, c2) => {
+                return c2.logins.length - c1.logins.length;
+            });
+        }
 
         return (
             <div className='vote-page'>
-                {JSON.stringify(topicVotes)}
+                <div>
+                    <Link to='/'>Back to Topics</Link>
+                </div>
 
                 {topic && <div>
                     <h1>{topic.name}</h1>
                     <div>
-                        {topic.candidates.map(c => (
-                            <div key={c.name}>
+                        {candidatesInfo.map(c => (
+                            <div
+                                className={cn({ 'is-voted' : c.isVoted })}
+                                key={c.name}>
                                 <span>{c.name}</span>
-                                <button onClick={() => this.handleVote(c.name)}>Vote</button>
-                                <span>0</span>
+                                <button
+                                    className='vote-btn'
+                                    onClick={() => this.handleVote(c.name, !c.isVoted)}>{c.isVoted ? 'Unvote' : 'Vote'}</button>
+                                <span title={c.logins.join(' | ')}>{c.logins.length}</span>
                             </div>
                         ))}
                     </div>

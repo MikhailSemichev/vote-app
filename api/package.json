@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon --nolazy --inspect-brk=9229 index.js"
+    "start": "nodemon index.js"
   },
   "author": "",
   "license": "ISC",

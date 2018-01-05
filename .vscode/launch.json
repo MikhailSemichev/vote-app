@@ -7,6 +7,16 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "NODEMON API",
+            "runtimeExecutable": "nodemon",
+            "program": "${workspaceFolder}/api/index.js",
+            "restart": true,
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "nodemon",
             "runtimeExecutable": "C:\\Users\\АТТО\\AppData\\Roaming\\npm\\nodemon.cmd",
             "program": "${workspaceFolder}/api/index.js",
