@@ -1,4 +1,35 @@
 .header {
-    padding: 20px;
-    background: #FFFFFF;
+    padding: 2rem;
+    background: rgb(103, 58, 183);
+    color: #FFF;
+    display: flex;
+    justify-content: space-between;
+
+    &-app-name {
+        font-size: 2rem;
+        flex: 0 0 10rem;
+    }
+
+    &-login {
+        font-size: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+
+        .fa {
+            font-size: 2rem;
+        }
+
+        .fa-sign-out {
+            cursor: pointer;
+        }
+
+        &-text {
+            margin: 0 1rem;
+            max-width: 20rem;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
 }

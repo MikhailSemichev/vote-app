@@ -18,13 +18,17 @@ class Header extends Component {
         const { login } = loginStore;
         return (
             <div className='header'>
-                <div className='header-logo'>Logo!</div>
-                <div className='header-login'>
-                    <span>{login}</span>
-                    <a
-                        href='#'
-                        onClick={this.handleLogOff}>Log off</a>
-                </div>
+                <div className='header-app-name'>Vote App</div>
+                {login && <div className='header-login'>
+                    <i className='fa fa-user-circle-o' />
+                    <div className='header-login-text'>
+                        {login}
+                    </div>
+                    <i
+                        className='fa fa-sign-out'
+                        title='Sign out'
+                        onClick={this.handleLogOff} />
+                </div>}
             </div>
         );
     }
