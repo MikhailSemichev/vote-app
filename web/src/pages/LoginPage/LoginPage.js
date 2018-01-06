@@ -19,12 +19,18 @@ class LoginPage extends Component {
         return (
             <div className='login-page'>
                 <h1>Login Page</h1>
-                <form onSubmit={this.handleSubmit}>
+                <p>Vote App is application for voting</p>
+                <form
+                    className='login-form'
+                    onSubmit={this.handleSubmit}>
                     <input
                         type='text'
                         defaultValue={login}
+                        placeholder='Please type your login...'
                         ref={r => this.loginRef = r} />
-                    <button>Login</button>
+                    <div className='btn-container'>
+                        <button className='login-btn'>Login</button>
+                    </div>
                 </form>
             </div>
         );
