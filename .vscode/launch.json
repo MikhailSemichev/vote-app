@@ -6,6 +6,14 @@
     "configurations": [
         {
             "type": "node",
+            "request": "attach",
+            "name": "ATTACH API",
+            "port": 43499,
+            "protocol": "inspector",
+            "restart": true
+        },
+        {
+            "type": "node",
             "request": "launch",
             "name": "NODEMON API",
             "runtimeExecutable": "nodemon",
@@ -23,12 +31,6 @@
             "restart": true,
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "API Start",
-            "program": "${workspaceFolder}/api/index.js"
         }
     ]
 }

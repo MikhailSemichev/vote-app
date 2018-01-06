@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js"
+    "start": "nodemon --inspect=43499 index.js --debug-brk"
   },
   "author": "",
   "license": "ISC",
