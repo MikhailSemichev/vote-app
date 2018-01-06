@@ -39,6 +39,20 @@ input {
     }
 }
 
+textarea {
+    display: block;
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 2px;
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0.3rem;
+
+    &:focus {
+        border: 2px solid #4285f4; 
+    }
+}
+
 h1 {
     font-size: 3.4rem;
     line-height: 135%;

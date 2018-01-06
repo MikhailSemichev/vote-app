@@ -78,7 +78,9 @@ class EditTopicPage extends Component {
                 <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
                 {topic && <form onSubmit={this.handleSubmit}>
                     <div>
-                        <label htmlFor='topicName'>Topic Name</label>
+                        <div className='field-label'>
+                            <label htmlFor='topicName'>Topic Name</label>
+                        </div>
                         <input
                             id='topicName'
                             name='name'
@@ -87,7 +89,9 @@ class EditTopicPage extends Component {
                             type='text' />
                     </div>
                     <div>
-                        <label htmlFor='topicCandidates'>Topic Candidates</label>
+                        <div className='field-label'>
+                            <label htmlFor='topicCandidates'>Topic Candidates</label>
+                        </div>
                         <textarea
                             id='topicCandidates'
                             name='candidatesText'
@@ -95,9 +99,13 @@ class EditTopicPage extends Component {
                             rows='10'
                             value={topic.candidatesText} />
                     </div>
-                    <button disabled={isSaving}>
-                        {isSaving ? 'Saving...' : 'Save'}
-                    </button>
+                    <div className='btn-container'>
+                        <button
+                            className='save-btn'
+                            disabled={isSaving}>
+                            {isSaving ? 'Saving...' : 'Save'}
+                        </button>
+                    </div>
                 </form>}
                 {!topic && <div>Loading...</div>}
             </div>
