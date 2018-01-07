@@ -12,7 +12,7 @@
         "----heroku-scripts----": "",
         "build_web": "cd web && npm i && npm run build",
         "start_api": "cd api && npm i && npm run start_heroku",
-        "heroku": "npm run cross-env SERVICE_URL=https://va0.herokuapp.com && npm run build_web && node copy-build.js && npm run start_api"
+        "heroku": "cross-env SERVICE_URL=https://va0.herokuapp.com && npm run build_web && node copy-build.js && npm run start_api"
     },
     "repository": {
         "type": "git",
