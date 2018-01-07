@@ -1,4 +1,5 @@
 import io from 'socket.io-client';
+import config from '../config';
 
 export default {
     vote,
@@ -12,7 +13,7 @@ function vote(topicId, candidateName, login, isVote) {
 }
 
 function onVote(topicId, cb) {
-    socket = io('http://localhost:3333/votes', { query: `topicId=${topicId}` });
+    socket = io(`${config.SERVICE_URL}/votes`, { query: `topicId=${topicId}` });
 
     socket.on('onVote', topicVotes => {
         cb(topicVotes);

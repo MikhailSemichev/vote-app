@@ -19,8 +19,9 @@ app.use(nocache());
 const mongodb = require('./db/mongodb');
 mongodb.connect();
 
+app.use(express.static('www'));
 
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
     res.send('Vote App Api');
 });
 

@@ -1,13 +1,14 @@
 import axios from 'axios';
+import config from '../config';
 
-axios.defaults.baseURL = 'http://localhost:3333/api';
+axios.defaults.baseURL = `${config.SERVICE_URL}/api`;
 
 axios
     .interceptors
     .request
-    .use(config => {
+    .use(conf => {
         // Do something before request is sent
-        return config;
+        return conf;
     }, error => {
         // Do something with request error
         return Promise.reject(error);
