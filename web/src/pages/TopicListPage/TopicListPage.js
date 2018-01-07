@@ -30,7 +30,8 @@ class TopicListPage extends Component {
 
         return (
             <div className='topic-list-page'>
-                <div className='btn-container'>
+                <div className='page-title'>
+                    <h1>Topics to Vote</h1>
                     <button onClick={this.handleNewTopic}>New Topic</button>
                 </div>
                 <div>

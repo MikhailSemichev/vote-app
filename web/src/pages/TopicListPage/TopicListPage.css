@@ -1,0 +1,16 @@
+.topic-list-page .btn-container {
+  display: flex;
+  justify-content: flex-end;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+
+.topic-list-page .topic-item {
+  margin: 2rem 0;
+  display: flex; }
+  .topic-list-page .topic-item a {
+    margin-left: 2rem; }
+  .topic-list-page .topic-item .topic-item-name {
+    flex: 1;
+    margin: 0; }
+  .topic-list-page .topic-item .fa-times {
+    margin-top: -0.2rem; }

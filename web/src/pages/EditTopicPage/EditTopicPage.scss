@@ -1,4 +1,10 @@
 .edit-topic-page {
+    h1 {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        margin-bottom: 2rem;
+    }
+
     .btn-container {
         display: flex;
     }
@@ -8,7 +14,7 @@
     }
 
     .field {
-        margin: 4rem 0;
+        margin-bottom: 4rem;
     }
 
     .field-label {

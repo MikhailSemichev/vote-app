@@ -1,0 +1,25 @@
+.header {
+  padding: 2rem;
+  background: #673ab7;
+  color: #FFF;
+  display: flex;
+  justify-content: space-between; }
+  .header .fa {
+    color: #FFF; }
+  .header-app-name {
+    font-size: 2rem;
+    flex: 0 0 10rem; }
+  .header-login {
+    font-size: 2rem;
+    height: 2rem;
+    display: flex;
+    align-items: center; }
+    .header-login .fa-sign-out {
+      cursor: pointer;
+      color: #b388ff; }
+    .header-login-text {
+      margin: 0 1rem;
+      max-width: 20rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden; }

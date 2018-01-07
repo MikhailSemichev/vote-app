@@ -6,16 +6,16 @@ import { loginStore } from '../../stores';
 const AuthRoute = ({ component: Component, ...rest }) => (
     <Route
         {...rest}
-        render={props => (
-            loginStore.isLoggedIn ? (
+        render={props => {
+            return loginStore.isLoggedIn ? (
                 <Component {...props} />
             ) : (
                 <Redirect to={{
                     pathname: '/login',
                     state: { from: props.location }
                 }} />
-            )
-        )} />
+            );
+        }} />
 );
 
 export default AuthRoute;

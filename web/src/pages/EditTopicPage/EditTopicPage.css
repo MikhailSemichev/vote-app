@@ -1,0 +1,11 @@
+.edit-topic-page .btn-container {
+  display: flex; }
+
+.edit-topic-page .save-btn {
+  margin-left: auto; }
+
+.edit-topic-page .field {
+  margin: 4rem 0; }
+
+.edit-topic-page .field-label {
+  margin-bottom: 1rem; }

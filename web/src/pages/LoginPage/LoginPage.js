@@ -11,15 +11,19 @@ class LoginPage extends Component {
     handleSubmit = e => {
         e.preventDefault();
         loginStore.setLogin(this.loginRef.value);
-        this.props.history.push('/');
+
+        const { from } = this.props.location.state || { from: { pathname: '/' } };
+        this.props.history.push(from.pathname);
     };
 
     render() {
         const { login } = loginStore;
         return (
             <div className='login-page'>
-                <h1>Login Page</h1>
-                <p>Vote App is application for voting</p>
+                <div className='page-title'>
+                    <h1>Login Page</h1>
+                    <p>Vote App is application for voting</p>
+                </div>
                 <form
                     className='login-form'
                     onSubmit={this.handleSubmit}>
