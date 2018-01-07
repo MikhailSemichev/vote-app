@@ -228,10 +228,7 @@
                 "SwitchCase": 1
             }
         ],
-        "linebreak-style": [
-            2,
-            "windows"
-        ],
+        "linebreak-style": 0,
         "max-len": [
             2,
             200,
