@@ -3,7 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import { topicsStore } from '../../stores';
-import './TopicListPage.css';
+import './TopicListPage.scss';
 
 @withRouter
 @observer
@@ -30,16 +30,32 @@ class TopicListPage extends Component {
 
         return (
             <div className='topic-list-page'>
-                <button onClick={this.handleNewTopic}>New Topic</button>
+                <div className='btn-container'>
+                    <button onClick={this.handleNewTopic}>New Topic</button>
+                </div>
                 <div>
                     {isLoading && 'Loading...'}
                     {isEmpty && 'No topics. Yet :)'}
                     {topics && topics.map(topic => (
-                        <div key={topic.id}>
-                            <span>{topic.name}</span>
-                            <Link to={`/vote/${topic.id}`}>Vote</Link>
-                            <Link to={`/topic/${topic.id}`}>Edit</Link>
-                            <a href='#' onClick={() => this.handleDelete(topic)}>Delete</a>
+                        <div
+                            key={topic.id}
+                            className='topic-item'>
+                            <Link
+                                className='topic-item-name'
+                                to={`/vote/${topic.id}`}>
+                                {topic.name}
+                            </Link>
+                            <Link
+                                to={`/topic/${topic.id}`}
+                                title='Edit Topic'>
+                                <i className='fa fa-pencil-square-o'/>
+                            </Link>
+                            <a
+                                href='#'
+                                onClick={() => this.handleDelete(topic)}
+                                title='Delete Topic'>
+                                <i className='fa fa-times' />
+                            </a>
                         </div>
                     ))}
                 </div>

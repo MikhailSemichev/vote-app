@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 
 import { loginStore } from '../../stores';
-import './LoginPage.css';
+import './LoginPage.scss';
 
 @withRouter
 @observer

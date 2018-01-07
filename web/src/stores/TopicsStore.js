@@ -9,6 +9,9 @@ class TopicsStore {
     async loadTopics() {
         this.topics = null;
         const topics = await topicsApi.getTopics();
+        topics.sort((t1, t2) => {
+            return t1.id < t2.id;
+        });
 
         runInAction(() => {
             this.topics = topics;

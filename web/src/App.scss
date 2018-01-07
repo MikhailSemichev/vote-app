@@ -56,7 +56,7 @@ textarea {
 h1 {
     font-size: 3.4rem;
     line-height: 135%;
-    margin: 0;
+    margin: 0 0 1rem 0;
     font-weight: 200;
 }
 
@@ -87,4 +87,11 @@ button {
     &:active {
         box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
     }
+}
+
+.fa {
+    font-size: 2.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    color: #4285f4;
 }

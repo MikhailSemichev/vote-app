@@ -1,5 +1,6 @@
 const express = require('express');
 const Topic = require('./Topic');
+const votesStore = require('../votes/votesStore');
 
 module.exports = app => {
     const topicsRouter = express.Router();
@@ -47,9 +48,14 @@ module.exports = app => {
     });
 
     topicsRouter.delete('/:topicId', async (req, res) => {
-        const topic = await Topic.findById(req.params.topicId);
+        const { topicId } = req.params;
+        const topic = await Topic.findById(topicId);
 
         await topic.remove();
+
+        // Remove all votes
+        await votesStore.removeTopicVotes(topicId);
+
         res.status(204).send('');
     });
 

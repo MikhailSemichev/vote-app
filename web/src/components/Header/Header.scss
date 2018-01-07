@@ -5,6 +5,10 @@
     display: flex;
     justify-content: space-between;
 
+    .fa {
+        color: #FFF;
+    }
+
     &-app-name {
         font-size: 2rem;
         flex: 0 0 10rem;
@@ -16,12 +20,9 @@
         display: flex;
         align-items: center;
 
-        .fa {
-            font-size: 2rem;
-        }
-
         .fa-sign-out {
             cursor: pointer;
+            color: rgb(179, 136, 255);
         }
 
         &-text {

@@ -47,12 +47,8 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
-    "start-js": "node scripts/start",
-    "start": "npm-run-all -p watch-css start-js",
-    "build-js": "node scripts/build",
-    "build": "npm-run-all build-css build-js",
+    "start": "node scripts/start",
+    "build": "node scripts/build",
     "test": "node scripts/test.js --env=jsdom"
   },
   "jest": {
@@ -106,6 +102,8 @@
     "eslint-plugin-import": "^2.6.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.1.0",
-    "node-sass-chokidar": "0.0.3"
+    "node-sass": "^4.7.2",
+    "node-sass-chokidar": "0.0.3",
+    "sass-loader": "^6.0.6"
   }
 }

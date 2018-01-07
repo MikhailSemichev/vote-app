@@ -4,7 +4,8 @@ const cache = {};
 
 module.exports = {
     getTopicVotes,
-    vote
+    vote,
+    removeTopicVotes
 };
 
 async function getTopicVotes(topicId) {
@@ -39,6 +40,11 @@ async function vote(topicId, candidateName, login, isVote) {
     }
 
     return topicVotesCache;
+}
+
+function removeTopicVotes(topicId) {
+    delete cache[topicId];
+    return Vote.remove({ topicId });
 }
 
 async function ensureTopicVotesInCache(topicId) {

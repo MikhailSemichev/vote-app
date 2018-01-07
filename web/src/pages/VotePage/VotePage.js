@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { withRouter, Link } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import cn from 'classnames';
 
 import { topicsStore, votesStore, loginStore } from '../../stores';
-import './VotePage.css';
+import './VotePage.scss';
 
 @withRouter
 @observer
@@ -72,22 +72,25 @@ class VotePage extends Component {
 
         return (
             <div className='vote-page'>
-                <div>
-                    <Link to='/'>Back to Topics</Link>
-                </div>
-
                 {topic && <div>
                     <h1>{topic.name}</h1>
                     <div>
                         {candidatesInfo.map(c => (
                             <div
-                                className={cn({ 'is-voted' : c.isVoted })}
+                                className={cn('candidate-item', { 'is-voted' : c.isVoted })}
                                 key={c.name}>
-                                <span>{c.name}</span>
-                                <button
-                                    className='vote-btn'
-                                    onClick={() => this.handleVote(c.name, !c.isVoted)}>{c.isVoted ? 'Unvote' : 'Vote'}</button>
-                                <span title={c.logins.join(' | ')}>{c.logins.length}</span>
+                                <div
+                                    className='votes-count'>
+                                    <div
+                                        className='count'
+                                        title={c.logins.join(' | ')}>
+                                        {c.logins.length}
+                                    </div>
+                                </div>
+                                <div className='candidate-name'>{c.name}</div>
+                                <i
+                                    className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
+                                    onClick={() => this.handleVote(c.name, !c.isVoted)}/>
                             </div>
                         ))}
                     </div>

@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import * as _ from 'lodash';
 
 import { topicsStore } from '../../stores';
-import './EditTopicPage.css';
+import './EditTopicPage.scss';
 
 @withRouter
 @observer
@@ -18,7 +18,7 @@ class EditTopicPage extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.props.match.params.topicId !== prevProps.match.params.topicId) {
+        if (this.getTopicId() !== prevProps.match.params.topicId) {
             this.loadTopic();
         }
     }
@@ -58,26 +58,31 @@ class EditTopicPage extends Component {
         });
     };
 
+    getTopicId() {
+        return this.props.match.params.topicId;
+    }
+
     async loadTopic() {
-        const { topicId } = this.props.match.params;
+        const topicId = this.getTopicId();
         const topic = topicId ? await topicsStore.getTopic(topicId)
             : { candidates: [] };
 
         topic.candidatesText = topic.candidates.map(c => c.name).join('\n');
         this.setState({
-            topicId,
             topic: { ...topic },
             isSaving: false
         });
     }
 
     render() {
-        const { topicId, topic, isSaving } = this.state;
+        const topicId = this.getTopicId();
+        const { topic, isSaving } = this.state;
+
         return (
             <div className='edit-topic-page'>
                 <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
                 {topic && <form onSubmit={this.handleSubmit}>
-                    <div>
+                    <div className='field'>
                         <div className='field-label'>
                             <label htmlFor='topicName'>Topic Name</label>
                         </div>
@@ -88,7 +93,7 @@ class EditTopicPage extends Component {
                             onChange={this.handleTextChange}
                             type='text' />
                     </div>
-                    <div>
+                    <div className='field'>
                         <div className='field-label'>
                             <label htmlFor='topicCandidates'>Topic Candidates</label>
                         </div>
