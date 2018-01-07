@@ -10,8 +10,10 @@
         "postinstall": "concurrent \"cd web && npm i\" \"cd api && npm i\"",
         "start": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
         
-        "build_web": "cd web && npm run build",
-        "start_api": "cd api && npm run start_heroku",
+        "----heroku-scripts----": "",
+        
+        "build_web": "cd web && npm i && npm run build",
+        "start_api": "cd api && npm i && npm run start_heroku",
         "heroku": "SET SERVICE_URL=https://va0.herokuapp.com && npm run build_web && node copy-build.js && npm run start_api"
     },
     "repository": {
