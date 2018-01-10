@@ -1,0 +1,3 @@
+rootProject.name = 'vote_app'
+
+include ':app'

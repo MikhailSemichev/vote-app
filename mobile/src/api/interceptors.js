@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-axios.defaults.baseURL = 'http://192.168.0.11:3333/api';
+axios.defaults.baseURL = 'http://192.168.56.1:3333/api';
 
 axios
     .interceptors

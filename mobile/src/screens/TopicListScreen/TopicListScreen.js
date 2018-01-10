@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, View, Button, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import { topicsStore } from '../../stores';
 
@@ -20,7 +21,7 @@ export default class TopicListScreen extends Component {
         const isEmpty = topics && !topics.length;
 
         return (
-            <View>
+            <View style={styles.container}>
                 <View>
                     <Button
                         title='New Topic'
@@ -31,8 +32,8 @@ export default class TopicListScreen extends Component {
                         style={styles.topicItem}
                         key={topic.id}>
                         <Text style={styles.topicName}>{topic.name}</Text>
-                        <Text>Edit</Text>
-                        <Text>Delete</Text>
+                        <Icon name="pencil-square-o" size={25} style={styles.icon} />
+                        <Icon name="times" size={25} style={styles.icon} />
                     </View>
                 ))}
             </View>
@@ -41,10 +42,18 @@ export default class TopicListScreen extends Component {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        padding: 10,
+        backgroundColor: 'rgb(237, 231, 246)'
+    },
     topicItem: {
         flexDirection: 'row'
     },
     topicName: {
         flex: 1
+    },
+    icon: {
+        color: '#4285f4',
+        marginLeft: 10
     }
 });

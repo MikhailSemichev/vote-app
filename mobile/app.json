@@ -1,5 +1,7 @@
 {
   "expo": {
     "sdkVersion": "23.0.0"
-  }
+  },
+  "name": "vote_app",
+  "displayName": "Vote App"
 }
