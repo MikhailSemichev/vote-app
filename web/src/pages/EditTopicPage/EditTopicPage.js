@@ -79,7 +79,7 @@ class EditTopicPage extends Component {
         const { topic, isSaving } = this.state;
 
         return (
-            <div className='edit-topic-page'>
+            <div className='app-page edit-topic-page'>
                 <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
                 {topic && <form onSubmit={this.handleSubmit}>
                     <div className='field'>

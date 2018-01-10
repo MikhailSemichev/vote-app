@@ -16,14 +16,12 @@ class App extends Component {
             <HashRouter>
                 <div className='app'>
                     <Header/>
-                    <div className='app-page'>
-                        <Switch>
-                            <Route path='/login' component={LoginPage}/>
-                            <AuthRoute exact path='/' component={TopicListPage}/>
-                            <AuthRoute path='/topic/:topicId?' component={EditTopicPage} />
-                            <AuthRoute path='/vote/:topicId' component={VotePage} />
-                        </Switch>
-                    </div>
+                    <Switch>
+                        <Route path='/login' component={LoginPage}/>
+                        <AuthRoute exact path='/' component={TopicListPage}/>
+                        <AuthRoute path='/topic/:topicId?' component={EditTopicPage} />
+                        <AuthRoute path='/vote/:topicId' component={VotePage} />
+                    </Switch>
                 </div>
             </HashRouter>
         );

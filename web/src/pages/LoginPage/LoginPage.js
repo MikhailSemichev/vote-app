@@ -19,7 +19,7 @@ class LoginPage extends Component {
     render() {
         const { login } = loginStore;
         return (
-            <div className='login-page'>
+            <div className='app-page login-page'>
                 <div className='page-title'>
                     <h1>Login Page</h1>
                     <p>Vote App is application for voting</p>

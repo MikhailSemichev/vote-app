@@ -71,7 +71,7 @@ class VotePage extends Component {
         }
 
         return (
-            <div className='vote-page'>
+            <div className='app-page vote-page'>
                 {topic && <div>
                     <h1>{topic.name}</h1>
                     <div>

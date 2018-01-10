@@ -29,7 +29,7 @@ class TopicListPage extends Component {
         const isEmpty =  topics && !topics.length;
 
         return (
-            <div className='topic-list-page'>
+            <div className='app-page topic-list-page'>
                 <div className='page-title'>
                     <h1>Topics to Vote</h1>
                     <button onClick={this.handleNewTopic}>New Topic</button>
