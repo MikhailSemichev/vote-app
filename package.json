@@ -7,12 +7,12 @@
         "node": "9.3.0"
     },
     "scripts": {
-        "postinstall": "cd web && npm i && cd ../api && npm i",
+        "--postinstall": "cd web && npm i && cd ../api && npm i",
         "start": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
         "----heroku-scripts----": "",
+        "postinstall": "cross-env SERVICE_URL=https://va0.herokuapp.com npm run build_web && node copy-build.js",
         "build_web": "cd web && npm i && npm run build",
-        "start_api": "cd api && npm i && npm run start_heroku",
-        "heroku": "cross-env SERVICE_URL=https://va0.herokuapp.com npm run build_web && node copy-build.js && npm run start_api"
+        "heroku": "cd api && npm i && npm run start_heroku"
     },
     "repository": {
         "type": "git",
