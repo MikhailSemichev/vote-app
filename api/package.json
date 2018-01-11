@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon --inspect=43499 index.js --debug-brk",
-    "start_heroku": "forever start index.js"
+    "start_heroku": "forever index.js"
   },
   "author": "",
   "license": "ISC",
