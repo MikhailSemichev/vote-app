@@ -34,7 +34,7 @@ class Header extends Component {
                     </div>
                     <i
                         className='fa fa-sign-out'
-                        title='Sign out'
+                        title='Log off'
                         onClick={this.handleLogOff} />
                 </div>}
             </div>
