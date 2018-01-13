@@ -1,5 +1,5 @@
 const express = require('express');
-const Topic = require('./Topic');
+const topicsStore = require('./topicsStore');
 const votesStore = require('../votes/votesStore');
 
 module.exports = app => {
@@ -7,12 +7,12 @@ module.exports = app => {
     app.use('/api/topics', topicsRouter);
 
     topicsRouter.get('/', async (req, res) => {
-        const topics = await Topic.find();
+        const topics = await topicsStore.getTopics();
         res.json(topics);
     });
 
     topicsRouter.get('/:topicId', async (req, res) => {
-        const topic = await Topic.findById(req.params.topicId);
+        const topic = await topicsStore.getTopic(req.params.topicId);
         res.json(topic);
     });
 
@@ -24,9 +24,8 @@ module.exports = app => {
             return;
         }
 
-        const topic = new Topic(req.body);
+        const topic = await topicsStore.createTopic(req.body);
 
-        topic.save();
         res.status(201).send(topic);
     });
 
@@ -38,23 +37,18 @@ module.exports = app => {
             return;
         }
 
-        const topic = await Topic.findById(req.body.id);
+        const topic = await topicsStore.updateTopic(req.body);
 
-        topic.name = req.body.name;
-        topic.candidates = req.body.candidates;
-
-        topic.save();
         res.status(200).send(topic);
     });
 
     topicsRouter.delete('/:topicId', async (req, res) => {
         const { topicId } = req.params;
-        const topic = await Topic.findById(topicId);
 
-        await topic.remove();
-
-        // Remove all votes
-        await votesStore.removeTopicVotes(topicId);
+        await Promise.all([
+            topicsStore.deleteTopic(topicId),
+            votesStore.removeTopicVotes(topicId)
+        ]);
 
         res.status(204).send('');
     });

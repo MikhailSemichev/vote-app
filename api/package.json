@@ -1,27 +1,28 @@
 {
-  "name": "api",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon --inspect=43499 index.js --debug-brk",
-    "start_heroku": "forever index.js"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "babel-eslint": "^8.1.2",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "eslint": "^4.14.0",
-    "express": "^4.16.2",
-    "forever": "^0.15.3",
-    "lodash": "^4.17.4",
-    "mongoose": "^5.0.0-rc0",
-    "nocache": "^2.0.0",
-    "nodemon": "^1.14.7",
-    "save": "^2.3.2",
-    "socket.io": "^2.0.4",
-    "ws": "^3.3.3"
-  }
+    "name": "api",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start":
+            "set NODE_ENV=development&& nodemon --inspect=43499 index.js --debug-brk",
+        "start_heroku": "forever index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "babel-eslint": "^8.1.2",
+        "body-parser": "^1.18.2",
+        "cors": "^2.8.4",
+        "eslint": "^4.14.0",
+        "express": "^4.16.2",
+        "forever": "^0.15.3",
+        "lodash": "^4.17.4",
+        "mongoose": "^5.0.0-rc0",
+        "nocache": "^2.0.0",
+        "nodemon": "^1.14.7",
+        "save": "^2.3.2",
+        "socket.io": "^2.0.4",
+        "ws": "^3.3.3"
+    }
 }

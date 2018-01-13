@@ -2,15 +2,14 @@ const express = require('express');
 const http = require('http');
 const cluster = require('cluster');
 
-if (cluster.isMaster) {
+if (cluster.isMaster && process.env.NODE_ENV !== 'development') {
     cluster.fork();
 
     cluster.on('exit', () => {
+        console.log('Fork new Worker process');
         cluster.fork();
     });
-}
-
-if (cluster.isWorker) {
+} else {
     const app = express();
     const server = http.createServer(app);
 
@@ -25,7 +24,6 @@ if (cluster.isWorker) {
     app.use(cors());
     app.options('*', cors());
     app.use(nocache());
-
 
     const mongodb = require('./db/mongodb');
     mongodb.connect();
@@ -49,5 +47,6 @@ if (cluster.isWorker) {
 
     const port = process.env.PORT || 3333;
     server.listen(port);
+    console.log(`Started in '${process.env.NODE_ENV}' mode`);
     console.log(`Listening at: http://localhost:${port}`);
 }
