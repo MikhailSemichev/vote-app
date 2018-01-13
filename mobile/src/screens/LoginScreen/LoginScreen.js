@@ -10,8 +10,6 @@ export default class LoginScreen extends Component {
  
     async componentDidMount() {
         const login = await loginStore.getLogin();
-        debugger;
-        console.log(login);
     }
     
     handleSubmit = () => {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
+import { Text, View, ScrollView, Button, TextInput, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import * as _ from 'lodash';
 
@@ -78,35 +78,39 @@ export default class EditTopicScreen extends Component {
         const { topic, isSaving } = this.state;
 
         return (
-            <View style={styles.container}>
+            <ScrollView style={styles.container}>
                 {topic && <View>
                     <View>
-                        <Text>Topic Name</Text>
+                        <Text style={styles.fieldLabel}>Topic Name</Text>
                         <TextInput
                             name='name'
+                            style={styles.fieldInput}
                             value={topic.name}
                             onChangeText={this.handleTopicNameChange}
                             placeholder="Type topic name here" />
                     </View>
                     <View>
-                        <Text>Topic Candidates</Text>
+                        <Text style={styles.fieldLabel}>Topic Candidates</Text>
                         <TextInput
                             name='candidatesText'
+                            style={styles.fieldInput}
                             value={topic.candidatesText}
                             onChangeText={this.handleTopicCandidatesChange}
                             multiline={true}
                             numberOfLines={4}
                             placeholder="Type topic candidates here" />
                     </View>
-                    <Button
-                        title={isSaving ? 'Saving...' : 'Save'}
-                        disabled={isSaving}
-                        onPress={this.handleSubmit} />
+                    <View style={styles.submitButton}>
+                        <Button
+                            title={isSaving ? 'Saving...' : 'Save'}
+                            disabled={isSaving}
+                            onPress={this.handleSubmit} />
+                    </View>
                 </View>}
                 {!topic && <View>
                     <Text>Loading...</Text>
                 </View>}
-            </View>
+            </ScrollView>
         );
     }
 }
@@ -115,5 +119,17 @@ const styles = StyleSheet.create({
     container: {
         padding: 10,
         backgroundColor: 'rgb(237, 231, 246)'
+    },
+    fieldLabel: {
+        margin: 10,
+        fontSize: 24
+    },
+    fieldInput: {
+        fontSize: 20,
+        marginBottom: 10
+    },
+    submitButton: {
+        marginTop: 30,
+        marginBottom: 30
     }
 });
