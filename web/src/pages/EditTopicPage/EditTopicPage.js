@@ -90,7 +90,7 @@ class EditTopicPage extends Component {
                             id='topicName'
                             name='name'
                             value={topic.name}
-                            onChange={this.handleTextChange}
+                            onChange={this.handleTopicNameChange}
                             type='text' />
                     </div>
                     <div className='field'>
@@ -100,7 +100,7 @@ class EditTopicPage extends Component {
                         <textarea
                             id='topicCandidates'
                             name='candidatesText'
-                            onChange={this.handleTextChange}
+                            onChange={this.handleTopicCandidatesChange}
                             rows='10'
                             value={topic.candidatesText} />
                     </div>

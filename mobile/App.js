@@ -27,6 +27,7 @@ const RootNavigator = StackNavigator({
     },
     EditTopic: {
         screen: EditTopicScreen,
+        path: 'topic/:topicId',
         navigationOptions: {
             headerTitle: 'Edit Topic',
             ...headerStyles

@@ -15,6 +15,10 @@ export default class TopicListScreen extends Component {
         this.props.navigation.navigate('EditTopic');
     }
 
+    handleEditTopic = topicId => {
+        this.props.navigation.navigate('EditTopic', { topicId });
+    }
+
     render() {
         const { topics } = topicsStore;
         const isLoading = topics === null;
@@ -32,7 +36,11 @@ export default class TopicListScreen extends Component {
                         style={styles.topicItem}
                         key={topic.id}>
                         <Text style={styles.topicName}>{topic.name}</Text>
-                        <Icon name="pencil-square-o" size={25} style={styles.icon} />
+                        <Icon
+                            name="pencil-square-o"
+                            size={25}
+                            style={styles.icon}
+                            onPress={() => this.handleEditTopic(topic.id)} />
                         <Icon name="times" size={25} style={styles.icon} />
                     </View>
                 ))}
