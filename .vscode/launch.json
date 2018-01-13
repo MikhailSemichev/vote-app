@@ -19,6 +19,9 @@
             "runtimeExecutable": "nodemon",
             "program": "${workspaceFolder}/api/index.js",
             "restart": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         },
@@ -29,6 +32,9 @@
             "runtimeExecutable": "C:\\Users\\АТТО\\AppData\\Roaming\\npm\\nodemon.cmd",
             "program": "${workspaceFolder}/api/index.js",
             "restart": true,
+            "env": {
+                "NODE_ENV": "development"
+            },
             "console": "integratedTerminal",
             "internalConsoleOptions": "neverOpen"
         }
