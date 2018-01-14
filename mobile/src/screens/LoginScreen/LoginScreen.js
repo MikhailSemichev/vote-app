@@ -54,6 +54,7 @@ export default class LoginScreen extends Component {
                         placeholder='Please type your login...' />
                     <Button
                         title='Login'
+                        disabled={!loginText}
                         onPress={this.handleSubmit} />
                 </View>
                 }

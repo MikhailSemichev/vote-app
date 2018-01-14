@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { observer } from 'mobx-react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -7,14 +7,35 @@ import { loginStore } from '../stores';
 
 @observer
 export default class Header extends Component {
-    handleLogOff = async () => {
-        await loginStore.logOff();
-        this.props.navigation.navigate('Login');
+    handleLogOff = () => {
+        const { login } = loginStore;
+
+        Alert.alert(
+            'Login Info',
+            login,
+            [
+                {
+                    text: 'Log Off', onPress: async () => {
+                        await loginStore.logOff();
+                        this.props.navigation.navigate('Login');
+                    }
+                },
+                { text: 'OK' }
+            ],
+        );
     };
 
     handleAppNameClick = () => {
         this.props.navigation.navigate('TopicList');
     };
+
+    getLoginShort(login) {
+        const words = login.split(/[\s_]/);
+        if (words.length > 1) {
+            return (words[0][0] + words[1][0]).toUpperCase();
+        }
+        return login.substr(0, 2).toUpperCase();
+    }
 
     render() {
         const { login } = loginStore;
@@ -30,7 +51,7 @@ export default class Header extends Component {
                             style={styles.userIcon}
                             name='user-circle-o' />
                         <Text style={styles.userName}>
-                            {login.substr(0, 2).toUpperCase()}
+                            {this.getLoginShort(login)}
                         </Text>
                     </View>
                 </TouchableOpacity>
