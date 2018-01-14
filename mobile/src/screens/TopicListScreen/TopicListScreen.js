@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, View, Button, StyleSheet } from 'react-native';
+import { Text, View, Button, StyleSheet, Alert } from 'react-native';
 import { observer } from 'mobx-react';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -19,6 +19,21 @@ export default class TopicListScreen extends Component {
         this.props.navigation.navigate('EditTopic', { topicId });
     }
 
+    handleVoteTopic = topicId => {
+        this.props.navigation.navigate('Vote', { topicId });
+    }
+
+    handleDeleteTopic = topic => {
+        Alert.alert(
+            'Confirmation',
+            `Are you sure to delete topic: ${topic.name}?`,
+            [
+                { text: 'OK', onPress: () => topicsStore.deleteTopic(topic.id) },
+                { text: 'Cancel' }
+            ],
+        );
+    }
+
     render() {
         const { topics } = topicsStore;
         const isLoading = topics === null;
@@ -35,13 +50,19 @@ export default class TopicListScreen extends Component {
                     <View
                         style={styles.topicItem}
                         key={topic.id}>
-                        <Text style={styles.topicName}>{topic.name}</Text>
+                        <Text
+                            style={styles.topicName}
+                            onPress={() => this.handleVoteTopic(topic.id)}>{topic.name}</Text>
                         <Icon
                             name="pencil-square-o"
                             size={25}
                             style={styles.icon}
                             onPress={() => this.handleEditTopic(topic.id)} />
-                        <Icon name="times" size={25} style={styles.icon} />
+                        <Icon
+                            name="times"
+                            size={25}
+                            style={styles.icon}
+                            onPress={() => this.handleDeleteTopic(topic)} />
                     </View>
                 ))}
             </View>

@@ -2,6 +2,7 @@ import { StackNavigator } from 'react-navigation';
 import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 import TopicListScreen from './src/screens/TopicListScreen/TopicListScreen';
 import EditTopicScreen from './src/screens/EditTopicScreen/EditTopicScreen';
+import VoteScreen from './src/screens/VoteScreen/VoteScreen';
 
 const headerStyles = {
     headerStyle: {
@@ -30,6 +31,14 @@ const RootNavigator = StackNavigator({
         path: 'topic/:topicId',
         navigationOptions: {
             headerTitle: 'Edit Topic',
+            ...headerStyles
+        }
+    },
+    Vote: {
+        screen: VoteScreen,
+        path: 'vote/:topicId',
+        navigationOptions: {
+            headerTitle: 'Vote',
             ...headerStyles
         }
     }

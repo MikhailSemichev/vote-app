@@ -30,7 +30,8 @@ export default class EditTopicScreen extends Component {
                         .filter(name => name)
                         .map(name => ({ name }))
                 });
-                this.props.navigation.goBack(null);
+                this.props.navigation.navigate('TopicList');
+                //this.props.navigation.goBack(null);
             } catch (err) {
                 // eslint-disable-next-line
                 //alert(err.response.data);
