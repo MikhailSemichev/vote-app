@@ -1,25 +1,26 @@
 import axios from 'axios';
+import config from '../../config';
 
-axios.defaults.baseURL = 'http://192.168.56.1:3333/api';
+axios.defaults.baseURL = `${config.SERVICE_URL}/api`;
 
-axios
-    .interceptors
-    .request
-    .use(config => {
+axios.interceptors.request.use(
+    conf => {
         // Do something before request is sent
-        return config;
-    }, error => {
+        return conf;
+    },
+    error => {
         // Do something with request error
         return Promise.reject(error);
-    });
+    }
+);
 
-axios
-    .interceptors
-    .response
-    .use(response => {
+axios.interceptors.response.use(
+    response => {
         // Do something with response data
         return response.data;
-    }, error => {
+    },
+    error => {
         // Do something with response error
         return Promise.reject(error);
-    });
+    }
+);

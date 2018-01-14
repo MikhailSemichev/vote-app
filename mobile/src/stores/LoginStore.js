@@ -1,11 +1,23 @@
-import { observable, action, computed } from 'mobx';
-import { AsyncStorage } from 'react-native'; 
+import { observable, action, computed, runInAction } from 'mobx';
+import { AsyncStorage } from 'react-native';
 
 class LoginStore {
-    @observable login = this.getLogin();
+    @observable login = null;
 
-    getLogin() {
-        return AsyncStorage.getItem('LOGIN');
+    constructor() {
+        this.getLogin().then(login => {
+            runInAction(() => {
+                this.login = login;
+            });
+        });
+    }
+
+    async getLogin() {
+        try {
+            return await AsyncStorage.getItem('LOGIN');
+        } catch (ex) {
+            return null;
+        }
     }
 
     @computed

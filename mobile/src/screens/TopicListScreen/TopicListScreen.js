@@ -54,20 +54,20 @@ export default class TopicListScreen extends Component {
                             style={styles.topicName}
                             onPress={() => this.handleVoteTopic(topic.id)}>{topic.name}</Text>
                         <Icon
-                            name="pencil-square-o"
+                            name='pencil-square-o'
                             size={25}
                             style={styles.icon}
                             onPress={() => this.handleEditTopic(topic.id)} />
                         <Icon
-                            name="times"
+                            name='times'
                             size={25}
                             style={styles.icon}
                             onPress={() => this.handleDeleteTopic(topic)} />
                     </View>
                 ))}
             </View>
-        )
-    };
+        );
+    }
 }
 
 const styles = StyleSheet.create({

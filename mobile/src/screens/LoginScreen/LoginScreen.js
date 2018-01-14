@@ -1,40 +1,62 @@
 import React, { Component } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
+import { NavigationActions } from 'react-navigation';
 
 import { loginStore } from '../../stores';
 
 @observer
 export default class LoginScreen extends Component {
-    state = { loginText: '' };
- 
-    async componentDidMount() {
-        const login = await loginStore.getLogin();
-    }
-    
-    handleSubmit = () => {
-        const { navigate } = this.props.navigation;
-
-        loginStore.setLogin(this.state.loginText);
-        navigate('TopicList');
+    state = {
+        loginText: '',
+        isLoadingLogin: true
     };
 
+    async componentDidMount() {
+        const login = await loginStore.getLogin();
+
+        if (login) {
+            this.navigateToTopicList();
+        } else {
+            this.setState({ isLoadingLogin: false });
+        }
+    }
+
+    handleSubmit = async () => {
+        await loginStore.setLogin(this.state.loginText);
+        this.navigateToTopicList();
+    };
+
+    navigateToTopicList() {
+        const resetAction = NavigationActions.reset({
+            index: 0,
+            actions: [
+                NavigationActions.navigate({ routeName: 'TopicList' })
+            ]
+        });
+        this.props.navigation.dispatch(resetAction);
+    }
+
     render() {
-        const { loginText } = this.state;
+        const { loginText, isLoadingLogin } = this.state;
 
         return (
             <View style={styles.page}>
-                <Text style={styles.info}>
-                    Vote App is application for voting
-                </Text>
-                <TextInput
-                    style={styles.input}
-                    value={loginText}
-                    onChangeText={(loginText) => this.setState({ loginText })}
-                    placeholder='Please type your login...' />
-                <Button
-                    title="Login"
-                    onPress={this.handleSubmit} />
+                {isLoadingLogin && <Text>Loading...</Text>}
+                {!isLoadingLogin && <View>
+                    <Text style={styles.info}>
+                        Vote App is application for voting
+                    </Text>
+                    <TextInput
+                        style={styles.input}
+                        value={loginText}
+                        onChangeText={text => this.setState({ loginText: text })}
+                        placeholder='Please type your login...' />
+                    <Button
+                        title='Login'
+                        onPress={this.handleSubmit} />
+                </View>
+                }
             </View>
         );
     }
@@ -54,26 +76,3 @@ const styles = StyleSheet.create({
         marginBottom: 10
     }
 });
-
-
-
-/*
-            <div className='login-page'>
-                <div className='page-title'>
-                    <h1>Login Page</h1>
-                    <p>Vote App is application for voting</p>
-                </div>
-                <form
-                    className='login-form'
-                    onSubmit={this.handleSubmit}>
-                    <input
-                        type='text'
-                        defaultValue={login}
-                        placeholder='Please type your login...'
-                        ref={r => this.loginRef = r} />
-                    <div className='btn-container'>
-                        <button className='login-btn'>Login</button>
-                    </div>
-                </form>
-            </div>
-            */

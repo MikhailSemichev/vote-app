@@ -1,45 +1,39 @@
+import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 import TopicListScreen from './src/screens/TopicListScreen/TopicListScreen';
 import EditTopicScreen from './src/screens/EditTopicScreen/EditTopicScreen';
 import VoteScreen from './src/screens/VoteScreen/VoteScreen';
+import Header from './src/components/Header';
 
-const headerStyles = {
-    headerStyle: {
-        backgroundColor: 'rgb(103, 58, 183)'
-    },
-    headerTintColor: '#ffffff'
-};
+const header = (props) => (<Header {...props} />);
 
 const RootNavigator = StackNavigator({
     Login: {
         screen: LoginScreen,
         navigationOptions: {
-            headerTitle: 'Login',
-            ...headerStyles
+            header
         }
     },
     TopicList: {
         screen: TopicListScreen,
         navigationOptions: {
-            headerTitle: 'Topic List',
-            ...headerStyles
+            headerTitle: '!!!!!',
+            header
         }
     },
     EditTopic: {
         screen: EditTopicScreen,
         path: 'topic/:topicId',
         navigationOptions: {
-            headerTitle: 'Edit Topic',
-            ...headerStyles
+            header
         }
     },
     Vote: {
         screen: VoteScreen,
         path: 'vote/:topicId',
         navigationOptions: {
-            headerTitle: 'Vote',
-            ...headerStyles
+            header
         }
     }
 });
