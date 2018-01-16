@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Text, View, Button, TextInput, StyleSheet } from 'react-native';
 import { observer } from 'mobx-react';
 import { NavigationActions } from 'react-navigation';
+import Spinner from '../../components/Spinner';
 
 import { loginStore } from '../../stores';
 
@@ -42,7 +43,7 @@ export default class LoginScreen extends Component {
 
         return (
             <View style={styles.page}>
-                {isLoadingLogin && <Text>Loading...</Text>}
+                {isLoadingLogin && <Spinner />}
                 {!isLoadingLogin && <View>
                     <Text style={styles.info}>
                         Vote App is application for voting
@@ -66,7 +67,8 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
     page: {
         padding: 10,
-        backgroundColor: 'rgb(237, 231, 246)'
+        backgroundColor: 'rgb(237, 231, 246)',
+        flex: 1
     },
     info: {
         textAlign: 'center',

@@ -35,7 +35,8 @@
     "react-native": "0.50.3",
     "react-native-fontawesome": "^5.7.0",
     "react-native-vector-icons": "^4.5.0",
-    "react-navigation": "^1.0.0-beta.23"
+    "react-navigation": "^1.0.0-beta.23",
+    "styled-components": "^2.4.0"
   },
   "rnpm": {
     "assets": [
