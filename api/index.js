@@ -18,7 +18,9 @@ if (cluster.isMaster && process.env.NODE_ENV !== 'development') {
     const bodyParser = require('body-parser');
     const cors = require('cors');
     const nocache = require('nocache');
+    const errorMiddleware = require('./middleware/errorMiddleware');
 
+    app.wrap = fn => (...args) => fn(...args).catch(args[2]);
     app.use(bodyParser.urlencoded({ extended: false }));
     app.use(bodyParser.json());
     app.use(cors());
@@ -43,6 +45,8 @@ if (cluster.isMaster && process.env.NODE_ENV !== 'development') {
 
     require('./routers/votes/votesWs')(io);
 
+    // error handling
+    app.use(errorMiddleware());
     //
 
     const port = process.env.PORT || 3333;
