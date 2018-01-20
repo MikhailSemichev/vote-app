@@ -1,3 +1,0 @@
-https://mlab.com/databases/vote-app
-login: vote-app
-password: vote-app-1
