@@ -19,7 +19,7 @@ class Header extends Component {
     };
 
     render() {
-        const { login } = loginStore;
+        const { userInfo } = loginStore;
         return (
             <div className='header'>
                 <div
@@ -27,10 +27,10 @@ class Header extends Component {
                     onClick={this.handleAppNameClick}>
                     Vote App
                 </div>
-                {login && <div className='header-login'>
+                {userInfo && <div className='header-login'>
                     <i className='fa fa-user-circle-o' />
                     <div className='header-login-text'>
-                        {login}
+                        {userInfo.login}
                     </div>
                     <i
                         className='fa fa-sign-out'

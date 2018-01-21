@@ -11,10 +11,21 @@
     }
 
     .btn-container {
+        margin: 2rem 0;
         display: flex;
+        align-items: center;
+        justify-content: space-between;
+        font-size: 1.2rem;
+    }
+    
+    .admin-container {
+        display: flex;
+        align-items: center;
     }
 
-    .login-btn {
-        margin: 2rem 0 2rem auto;
+    .password-input {
+        margin: 0 1rem;
+        width: 10rem;
+        border: 1px solid black;
     }
 }

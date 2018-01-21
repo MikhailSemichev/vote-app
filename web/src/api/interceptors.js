@@ -1,5 +1,6 @@
 import axios from 'axios';
 import config from '../config';
+import { loginStore } from '../stores';
 
 axios.defaults.baseURL = `${config.SERVICE_URL}/api`;
 
@@ -7,7 +8,8 @@ axios
     .interceptors
     .request
     .use(conf => {
-        // Do something before request is sent
+        // eslint-disable-next-line
+        conf.headers.ADMIN_PASSWORD = loginStore.userInfo.adminPassword;
         return conf;
     }, error => {
         // Do something with request error

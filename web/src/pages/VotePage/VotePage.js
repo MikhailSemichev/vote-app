@@ -51,7 +51,7 @@ class VotePage extends Component {
     render() {
         const { topic } = this.state;
         const { topicVotes } = votesStore;
-        const { login } = loginStore;
+        const { userInfo } = loginStore;
         let candidatesInfo = [];
 
         if (topic) {
@@ -62,7 +62,7 @@ class VotePage extends Component {
 
                 return {
                     name: c.name,
-                    isVoted: logins.includes(login),
+                    isVoted: logins.includes(userInfo.login),
                     logins
                 };
             });

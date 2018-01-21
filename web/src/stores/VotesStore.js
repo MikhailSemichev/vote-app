@@ -8,7 +8,7 @@ class VotesStore {
 
     @action
     async vote(topicId, candidateName, isVote) {
-        return votesWs.vote(topicId, candidateName, loginStore.login, isVote);
+        return votesWs.vote(topicId, candidateName, loginStore.userInfo.login, isVote);
     }
 
     onVote(topicId) {

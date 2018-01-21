@@ -1,27 +1,32 @@
 import { observable, action, computed } from 'mobx';
 
 class LoginStore {
-    @observable login = this.getLogin();
+    @observable userInfo = this.getUserInfo();
 
-    getLogin() {
-        return localStorage.getItem('LOGIN');
+    getUserInfo() {
+        const login = localStorage.getItem('LOGIN');
+        const adminPassword = localStorage.getItem('ADMIN_PASSWORD');
+
+        return login ? { login, adminPassword } : null;
     }
 
     @computed
     get isLoggedIn() {
-        return !!this.login;
+        return !!this.userInfo;
     }
 
     @action
-    setLogin(login) {
-        this.login = login;
+    setLogin(login, adminPassword) {
+        this.userInfo = { login, adminPassword };
         localStorage.setItem('LOGIN', login);
+        localStorage.setItem('ADMIN_PASSWORD', adminPassword);
     }
 
     @action
     logOff() {
-        this.login = null;
+        this.userInfo = null;
         localStorage.removeItem('LOGIN');
+        localStorage.removeItem('ADMIN_PASSWORD');
     }
 }
 

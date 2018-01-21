@@ -1,6 +1,7 @@
 const express = require('express');
 const topicsStore = require('./topicsStore');
 const votesStore = require('../votes/votesStore');
+const admin = require('../../middleware/adminMiddleware');
 
 module.exports = app => {
     const topicsRouter = express.Router();
@@ -29,7 +30,7 @@ module.exports = app => {
         res.status(201).send(topic);
     }));
 
-    topicsRouter.put('/', app.wrap(async (req, res) => {
+    topicsRouter.put('/', admin(), app.wrap(async (req, res) => {
         const err = validateTopic(req.body);
 
         if (err) {
@@ -42,7 +43,7 @@ module.exports = app => {
         res.status(200).send(topic);
     }));
 
-    topicsRouter.delete('/:topicId', app.wrap(async (req, res) => {
+    topicsRouter.delete('/:topicId', admin(), app.wrap(async (req, res) => {
         const { topicId } = req.params;
 
         await Promise.all([
