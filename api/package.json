@@ -4,8 +4,7 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start":
-            "set NODE_ENV=development&& nodemon --inspect=43499 index.js --debug-brk",
+        "start": "set NODE_ENV=development&& nodemon --inspect=43499 index.js --debug-brk",
         "start_heroku": "forever index.js"
     },
     "author": "",

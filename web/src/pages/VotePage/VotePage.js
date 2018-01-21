@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import cn from 'classnames';
 
 import { topicsStore, votesStore, loginStore } from '../../stores';
+import { stableSort } from '../../utils/utils';
 import './VotePage.scss';
 
 @withRouter
@@ -65,7 +66,7 @@ class VotePage extends Component {
                     logins
                 };
             });
-            candidatesInfo.sort((c1, c2) => {
+            candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
                 return c2.logins.length - c1.logins.length;
             });
         }
