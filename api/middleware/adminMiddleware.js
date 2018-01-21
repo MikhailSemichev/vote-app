@@ -3,7 +3,7 @@ const { ADMIN_PASSWORD } = process.env;
 // middleware for doing admin permissions
 module.exports = () => (req, res, next) => {
     // Only on production
-    if (!ADMIN_PASSWORD || req.headers.ADMIN_PASSWORD === ADMIN_PASSWORD) {
+    if (!ADMIN_PASSWORD || req.headers['admin-password'] === ADMIN_PASSWORD) {
         next();
         return;
     }
