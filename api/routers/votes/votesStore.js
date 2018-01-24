@@ -18,18 +18,24 @@ async function vote(topicId, candidateName, login, isVote) {
 
     const topicVotesCache = cache[topicId];
 
+    const voteItem = topicVotesCache.find(v => v.login === login && v.candidateName === candidateName);
+
     if (isVote) {
-        // Save to Mongo
-        const voteItem = new Vote({ topicId, candidateName, login });
-        await voteItem.save();
+        if (!voteItem) {
 
-        // Save to Cache
-        topicVotesCache.push(voteItem);
+            const voteItem = new Vote({topicId, candidateName, login});
+
+            // Save to Cache
+            topicVotesCache.push(voteItem);
+
+            // Save to Mongo
+            try {
+                await voteItem.save();
+            } catch (err) {
+                topicVotesCache.splice(topicVotesCache.indexOf(voteItem), 1);
+            }
+        }
     } else {
-        const voteItem = topicVotesCache.find(v =>
-            v.login === login
-            && v.candidateName === candidateName);
-
         if (voteItem) {
             // Remove from Mongo
             await voteItem.remove();
