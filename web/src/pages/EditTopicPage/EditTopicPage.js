@@ -65,7 +65,7 @@ class EditTopicPage extends Component {
     async loadTopic() {
         const topicId = this.getTopicId();
         const topic = topicId ? await topicsStore.getTopic(topicId)
-            : { candidates: [] };
+            : { name:'', candidates: [] };
 
         topic.candidatesText = topic.candidates.map(c => c.name).join('\n');
         this.setState({
