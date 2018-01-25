@@ -7,6 +7,8 @@ import { topicsStore, votesStore, loginStore } from '../../stores';
 import { stableSort } from '../../utils/utils';
 import './VotePage.scss';
 
+import NewCandidate from './NewCandidate/NewCandidate';
+
 @withRouter
 @observer
 class VotePage extends Component {
@@ -29,6 +31,10 @@ class VotePage extends Component {
     handleVote = (candidateName, isVote) => {
         votesStore.vote(this.getTopicId(), candidateName, isVote);
     };
+
+    handleAddNewCandidate = () => {
+        this.loadTopic();
+    }
 
     getTopicId() {
         return this.props.match.params.topicId;
@@ -78,7 +84,7 @@ class VotePage extends Component {
                     <div>
                         {candidatesInfo.map(c => (
                             <div
-                                className={cn('candidate-item', { 'is-voted' : c.isVoted })}
+                                className={cn('candidate-item', { 'is-voted': c.isVoted })}
                                 key={c.name}>
                                 <div
                                     className='votes-count'>
@@ -91,10 +97,13 @@ class VotePage extends Component {
                                 <div className='candidate-name'>{c.name}</div>
                                 <i
                                     className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
-                                    onClick={() => this.handleVote(c.name, !c.isVoted)}/>
+                                    onClick={() => this.handleVote(c.name, !c.isVoted)} />
                             </div>
                         ))}
                     </div>
+                    <NewCandidate
+                        topic={topic}
+                        onAddNewCandidate={this.handleAddNewCandidate} />
                 </div>}
                 {!topic && <div>Loading...</div>}
             </div>
