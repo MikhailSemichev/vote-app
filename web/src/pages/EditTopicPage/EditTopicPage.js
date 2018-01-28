@@ -82,9 +82,10 @@ class EditTopicPage extends Component {
     async loadTopic() {
         const topicId = this.getTopicId();
         const topic = topicId ? await topicsStore.getTopic(topicId)
-            : { name: '', isActive: true, candidates: [] };
+            : { name: '', isActive: true, candidates: [], categories: [] };
 
-        topic.candidatesText = topic.candidates.map(c => c.name).join('\n');
+        topic.candidatesText = topic.candidates.map(candidate => candidate.name).join('\n');
+        topic.categoriesText = topic.categories.map(category => category.title).join('\n');
         this.setState({
             topic: { ...topic },
             isSaving: false
