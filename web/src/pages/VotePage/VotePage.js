@@ -14,7 +14,6 @@ class VotePage extends Component {
     constructor(props) {
         super(props);
         this.state = { modalVisible: false, selectedCandidate: null };
-        this.handleModalCancel = this.handleModalCancel.bind(this);
     }
 
     componentDidMount() {
@@ -35,14 +34,28 @@ class VotePage extends Component {
         votesStore.vote(this.getTopicId(), candidateName, isVote);
     };
 
-    // handleModalOk(e) { }
-    handleModalCancel(e) {
+    handleModalOk = (e) => {
+        console.log(this.state.categoriesToVote);
         this.setState({ modalVisible:false });
     }
 
-    handleShowModal(name) {
+    handleModalCancel = (e) => {
+        this.setState({ modalVisible:false });
+    }
+
+    handleShowModal = (name) => {
         this.setState({ modalVisible:true, selectedCandidate: name });
     }
+
+    handleInputChange(name, value) {
+        this.setState({
+            categoriesToVote: {
+                ...this.state.categoriesToVote,
+                [name]: value
+            }
+        });
+    }
+
 
     getTopicId() {
         return this.props.match.params.topicId;
@@ -55,10 +68,13 @@ class VotePage extends Component {
         this.closeSocket = votesStore.onVote(topicId);
 
         const topic = await topicsStore.getTopic(topicId);
+        const categoriesToVote = {};
+        topic.categories.forEach(category => categoriesToVote[category.title] = false);
 
         this.setState({
             topicId,
-            topic: { ...topic }
+            topic: { ...topic },
+            categoriesToVote: { ...categoriesToVote, comment: '' }
         });
     }
 
@@ -114,8 +130,32 @@ class VotePage extends Component {
                             title={`Vote for ${this.state.selectedCandidate}`}
                             visible={this.state.modalVisible}
                             onOk={this.handleModalOk}
-                            onCancel={this.handleModalCancel}>
-                            <p>Please select categories for your vote</p>
+                            onCancel={this.handleModalCancel}
+                            okText='Save'
+                            destroyOnClose='true'>
+                            <div className='modal-header'>Please select categories for your vote</div>
+                            <div className='modal-body'>
+                                <div className='modal-body__category-list'>
+                                    {topic.categories.map(category => (
+                                        <div key={category.title} className='modal-body__item'>
+                                            <label className='modal-body__label' htmlFor={category.title}>{category.title}</label>
+                                            <input
+                                                onChange={(e) => this.handleInputChange(category.title, e.target.checked)}
+                                                className='modal-body__checkbox' id={category.title} type='checkbox'/>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className='field'>
+                                    <div className='modal-body__label'>
+                                        <label htmlFor='comment'>Comment</label>
+                                    </div>
+                                    <textarea
+                                        id='comment'
+                                        onChange={(e) => this.handleInputChange('comment', e.target.value)}
+                                        rows='4'
+                                        value={this.state.categoriesToVote.comment}/>
+                                </div>
+                            </div>
                         </Modal>
                     </div>
                 </div>}
