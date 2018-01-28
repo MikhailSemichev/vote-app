@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import cn from 'classnames';
+import { Modal } from 'antd';
 
 import { topicsStore, votesStore, loginStore } from '../../stores';
 import { stableSort } from '../../utils/utils';
@@ -10,7 +11,11 @@ import './VotePage.scss';
 @withRouter
 @observer
 class VotePage extends Component {
-    state = {};
+    constructor(props) {
+        super(props);
+        this.state = { modalVisible: false, selectedCandidate: null };
+        this.handleModalCancel = this.handleModalCancel.bind(this);
+    }
 
     componentDidMount() {
         this.loadTopic();
@@ -29,6 +34,15 @@ class VotePage extends Component {
     handleVote = (candidateName, isVote) => {
         votesStore.vote(this.getTopicId(), candidateName, isVote);
     };
+
+    // handleModalOk(e) { }
+    handleModalCancel(e) {
+        this.setState({ modalVisible:false });
+    }
+
+    handleShowModal(name) {
+        this.setState({ modalVisible:true, selectedCandidate: name });
+    }
 
     getTopicId() {
         return this.props.match.params.topicId;
@@ -92,10 +106,17 @@ class VotePage extends Component {
                                 {topic.isActive &&
                                     <i
                                         className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
-                                        onClick={() => this.handleVote(c.name, !c.isVoted)} />
+                                        onClick={() => this.handleShowModal(c.name)} />// () => this.handleVote(c.name, !c.isVoted)
                                 }
                             </div>
                         ))}
+                        <Modal
+                            title={`Vote for ${this.state.selectedCandidate}`}
+                            visible={this.state.modalVisible}
+                            onOk={this.handleModalOk}
+                            onCancel={this.handleModalCancel}>
+                            <p>Please select categories for your vote</p>
+                        </Modal>
                     </div>
                 </div>}
                 {!topic && <div>Loading...</div>}
