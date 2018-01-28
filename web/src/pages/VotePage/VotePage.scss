@@ -37,3 +37,12 @@
         font-weight: bold;
     }
 }
+
+.ant-modal-close {
+    box-shadow: none;
+    min-width: 0;
+
+    &:active {
+        box-shadow: none;
+    }
+}
