@@ -35,9 +35,8 @@ class EditTopicPage extends Component {
                     id: topic.id,
                     _id: topic._id,
                     name: topic.name,
-                    candidates: _.uniq(topic.candidatesText.split('\n'))
-                        .filter(name => name)
-                        .map(name => ({ name })),
+                    candidates: this.uniqFilterAndMapProperty(topic.candidatesText.split('\n'), 'name'),
+                    categories: this.uniqFilterAndMapProperty(topic.categoriesText.split('\n'), 'title'),
                     isActive: topic.isActive
                 });
                 this.props.history.push('/');
@@ -71,6 +70,13 @@ class EditTopicPage extends Component {
 
     getTopicId() {
         return this.props.match.params.topicId;
+    }
+
+    uniqFilterAndMapProperty(array, propertyNameForMapping) {
+        return _
+            .uniq(array)
+            .filter(value => value)
+            .map(propertyValue => ({ [propertyNameForMapping]: propertyValue }));
     }
 
     async loadTopic() {
@@ -124,6 +130,17 @@ class EditTopicPage extends Component {
                             onChange={this.handleTextChange}
                             rows='10'
                             value={topic.candidatesText} />
+                    </div>
+                    <div className='field'>
+                        <div className='field-label'>
+                            <label htmlFor='votingCategories'>Voting categories</label>
+                        </div>
+                        <textarea
+                            id='votingCategories'
+                            name='categoriesText'
+                            onChange={this.handleTextChange}
+                            rows='5'
+                            value={topic.categoriesText}/>
                     </div>
                     <div className='btn-container'>
                         <button
