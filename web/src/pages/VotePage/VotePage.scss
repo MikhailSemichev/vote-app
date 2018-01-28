@@ -16,10 +16,18 @@
             align-items: center;
 
             .count {
-                background-color: rgba(0, 0, 0, 0.3);
+                background-color: rgba(0, 0, 0, 0.308);
                 padding: .4rem 1rem;
                 border-radius: .3rem;
                 color: #fff;
+            }
+
+            $colors: #7560f6, #08c3e4, #91d962;
+
+            @for $i from 1 through length($colors) {
+                .place-#{$i} {
+                    background-color: nth($colors, $i) !important;
+                }
             }
         }
 
@@ -37,3 +45,4 @@
         font-weight: bold;
     }
 }
+
