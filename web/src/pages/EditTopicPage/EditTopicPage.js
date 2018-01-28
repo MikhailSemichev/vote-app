@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Switch } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import * as _ from 'lodash';
@@ -36,7 +37,8 @@ class EditTopicPage extends Component {
                     name: topic.name,
                     candidates: _.uniq(topic.candidatesText.split('\n'))
                         .filter(name => name)
-                        .map(name => ({ name }))
+                        .map(name => ({ name })),
+                    isActive: topic.isActive
                 });
                 this.props.history.push('/');
             } catch (err) {
@@ -58,6 +60,15 @@ class EditTopicPage extends Component {
         });
     };
 
+    handleStatusChange = isActive => {
+        this.setState({
+            topic: {
+                ...this.state.topic,
+                isActive
+            }
+        });
+    }
+
     getTopicId() {
         return this.props.match.params.topicId;
     }
@@ -65,7 +76,7 @@ class EditTopicPage extends Component {
     async loadTopic() {
         const topicId = this.getTopicId();
         const topic = topicId ? await topicsStore.getTopic(topicId)
-            : { candidates: [] };
+            : { name: '', isActive: true, candidates: [] };
 
         topic.candidatesText = topic.candidates.map(c => c.name).join('\n');
         this.setState({
@@ -80,7 +91,17 @@ class EditTopicPage extends Component {
 
         return (
             <div className='app-page edit-topic-page'>
-                <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
+                <div className='page-header'>
+                    <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
+                    {topic &&
+                        <Switch
+                            checked={topic.isActive}
+                            onChange={this.handleStatusChange}
+                            checkedChildren='In progress'
+                            unCheckedChildren='Closed' />
+                    }
+                </div>
+
                 {topic && <form onSubmit={this.handleSubmit}>
                     <div className='field'>
                         <div className='field-label'>

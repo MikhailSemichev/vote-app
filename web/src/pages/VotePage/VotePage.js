@@ -78,7 +78,7 @@ class VotePage extends Component {
                     <div>
                         {candidatesInfo.map(c => (
                             <div
-                                className={cn('candidate-item', { 'is-voted' : c.isVoted })}
+                                className={cn('candidate-item', { 'is-voted': c.isVoted })}
                                 key={c.name}>
                                 <div
                                     className='votes-count'>
@@ -89,9 +89,11 @@ class VotePage extends Component {
                                     </div>
                                 </div>
                                 <div className='candidate-name'>{c.name}</div>
-                                <i
-                                    className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
-                                    onClick={() => this.handleVote(c.name, !c.isVoted)}/>
+                                {topic.isActive &&
+                                    <i
+                                        className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
+                                        onClick={() => this.handleVote(c.name, !c.isVoted)} />
+                                }
                             </div>
                         ))}
                     </div>

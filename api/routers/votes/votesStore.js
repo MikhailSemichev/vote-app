@@ -1,4 +1,5 @@
 const Vote = require('./Vote');
+const topicsStore = require('../topics/topicsStore');
 
 const cache = {};
 
@@ -14,25 +15,31 @@ async function getTopicVotes(topicId) {
 }
 
 async function vote(topicId, candidateName, login, isVote) {
+    const topicItem = await topicsStore.getTopic(topicId);
+
     await ensureTopicVotesInCache(topicId);
 
-    const topicVotesCache = cache[topicId];
+    const topicVotesCacheItems = cache[topicId];
 
-    const voteItem = topicVotesCache.find(v => v.login === login && v.candidateName === candidateName);
+    if (!topicItem.isActive) { // check if the topic is active and allowed to count votes
+        return topicVotesCacheItems;
+    }
+
+    const voteItem = topicVotesCacheItems.find(v => v.login === login && v.candidateName === candidateName);
 
     if (isVote) {
         if (!voteItem) {
 
-            const voteItem = new Vote({topicId, candidateName, login});
+            const voteItem = new Vote({ topicId, candidateName, login });
 
             // Save to Cache
-            topicVotesCache.push(voteItem);
+            topicVotesCacheItems.push(voteItem);
 
             // Save to Mongo
             try {
                 await voteItem.save();
             } catch (err) {
-                topicVotesCache.splice(topicVotesCache.indexOf(voteItem), 1);
+                topicVotesCacheItems.splice(topicVotesCacheItems.indexOf(voteItem), 1);
             }
         }
     } else {
@@ -41,11 +48,11 @@ async function vote(topicId, candidateName, login, isVote) {
             await voteItem.remove();
 
             // Remove from Cache
-            topicVotesCache.splice(topicVotesCache.indexOf(voteItem), 1);
+            topicVotesCacheItems.splice(topicVotesCacheItems.indexOf(voteItem), 1);
         }
     }
 
-    return topicVotesCache;
+    return topicVotesCacheItems;
 }
 
 function removeTopicVotes(topicId) {
