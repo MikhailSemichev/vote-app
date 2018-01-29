@@ -1,0 +1,48 @@
+.ant-modal-close {
+    box-shadow: none;
+    min-width: 0;
+
+    &:active {
+        box-shadow: none;
+    }
+}
+
+.ant-modal-title{
+    font-size: 23px;
+}
+
+.modal-header{
+    font-size:20px;
+}
+
+.modal-body {
+    margin: 2rem 0;
+    max-width: 32rem;
+
+    &__item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin: 1rem 0;
+    }
+
+    &__category-list{
+        margin: 2rem 0;
+    }
+
+    &__label {
+        font-size:18px;
+        &:hover{
+            cursor: pointer;
+        }
+    }
+
+    &__checkbox {
+        width: 1.7rem;
+        height: 1.7rem;
+
+        &:hover{
+            cursor: pointer;
+        }
+    }
+}
