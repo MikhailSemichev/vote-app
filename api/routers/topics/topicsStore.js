@@ -1,4 +1,5 @@
 const Topic = require('./Topic');
+const eventHub = require('../../utils/eventHub');
 
 let cache = [];
 
@@ -7,7 +8,8 @@ module.exports = {
     getTopic,
     createTopic,
     updateTopic,
-    deleteTopic
+    deleteTopic,
+    addCandidates
 };
 
 async function getTopics() {
@@ -35,7 +37,10 @@ async function updateTopic(json) {
     topic.name = json.name;
     topic.candidates = json.candidates;
     topic.isActive = json.isActive;
+    topic.isAllowAddCandidates = json.isAllowAddCandidates;
     await topic.save();
+
+    eventHub.emit('topic/update', topic);
 
     return topic;
 }
@@ -45,7 +50,28 @@ async function deleteTopic(id) {
     await topic.remove();
 
     cache = cache.filter(t => t.id === id);
+
+    eventHub.emit('topic/delete', topic);
 }
+
+async function addCandidates(id, newCandidates) {
+    const topic = await getTopic(id);
+
+    if (topic.isAllowAddCandidates) {
+        topic.candidates = [
+            ...topic.candidates,
+            ...newCandidates
+                .filter(name => !topic.candidates.find(c => c.name === name))
+                .map(name => ({ name }))
+        ];
+        await topic.save();
+
+        eventHub.emit('topic/update', topic);
+    }
+
+    return topic.isAllowAddCandidates;
+}
+
 
 async function ensureTopicsInCache() {
     if (!cache.isLoaded) {

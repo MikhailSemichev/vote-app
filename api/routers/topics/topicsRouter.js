@@ -1,6 +1,5 @@
 const express = require('express');
 const topicsStore = require('./topicsStore');
-const votesStore = require('../votes/votesStore');
 const admin = require('../../middleware/adminMiddleware');
 
 module.exports = app => {
@@ -46,12 +45,22 @@ module.exports = app => {
     topicsRouter.delete('/:topicId', admin(), app.wrap(async (req, res) => {
         const { topicId } = req.params;
 
-        await Promise.all([
-            topicsStore.deleteTopic(topicId),
-            votesStore.removeTopicVotes(topicId)
-        ]);
+        await topicsStore.deleteTopic(topicId);
 
         res.status(204).send('');
+    }));
+
+    topicsRouter.post('/addCandidates', app.wrap(async (req, res) => {
+        const { topicId, newCandidates } = req.body;
+
+        const isAllowAddCandidates = await topicsStore.addCandidates(topicId, newCandidates);
+
+        if (!isAllowAddCandidates) {
+            res.status(400).send('Unable to add candidates');
+            return;
+        }
+
+        res.status(201).send('');
     }));
 
     function validateTopic(topic) {

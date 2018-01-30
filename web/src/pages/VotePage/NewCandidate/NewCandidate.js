@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import * as _ from 'lodash';
 
 import { topicsStore } from '../../../stores';
 
@@ -7,48 +8,42 @@ import './NewCandidate.scss';
 class NewCandidate extends Component {
     state = {
         isAdding: false,
-        candidateName: ''
+        candidatesText: ''
     };
 
     handleAddingCandidate = () => {
         this.setState({ isAdding: true });
     }
 
-    handleAddCandidate = async (e) => {
+    handleAddCandidate = (e) => {
         e.preventDefault();
 
-        try {
-            const { topic, onAddNewCandidate } = this.props;
-            const topicCandidates = topic.candidates.map(({ name }) => ({ name }));
+        const { topic } = this.props;
+        const newCandidates = _.uniq(
+            this.state.candidatesText.split('\n')
+                .map(name => (name.trim()))
+                .filter(name => name)
+        );
 
-            await topicsStore.saveTopic({
-                ...topic,
-                candidates: [...topicCandidates, { name: this.state.candidateName }]
-            });
-            this.clearForm();
-            onAddNewCandidate();
-        } catch (err) {
-            // eslint-disable-next-line
-            alert(err.response.data);
-            this.clearForm();
-        }
+        this.clearForm();
+        topicsStore.addCandidates(topic.id, newCandidates);
     }
 
     handleTextChange = e => {
         this.setState({
-            candidateName: e.target.value
+            candidatesText: e.target.value
         });
     };
 
     clearForm() {
         this.setState({
             isAdding: false,
-            candidateName: ''
+            candidatesText: ''
         });
     }
 
     render() {
-        const { isAdding, candidateName } = this.state;
+        const { isAdding, candidatesText } = this.state;
         const { topic } = this.props;
 
         if (!topic) {
@@ -58,17 +53,23 @@ class NewCandidate extends Component {
         return (
             <div className='new-candidate'>
                 {topic && <div>
-                    {!isAdding && <button onClick={this.handleAddingCandidate}>Add your candidate</button>}
-                    {isAdding && <div>
-                        <form onSubmit={this.handleAddCandidate}>
-                            <textarea
-                                value={candidateName}
-                                onChange={this.handleTextChange} />
-                            <button
-                                className='save-btn'
-                                disabled={!candidateName}>Save</button>
-                        </form>
-                    </div>}
+                    {!isAdding && (
+                        <button onClick={this.handleAddingCandidate}>
+                            Add your candidate
+                        </button>
+                    )}
+                    {isAdding && (
+                        <div>
+                            <form onSubmit={this.handleAddCandidate}>
+                                <textarea
+                                    value={candidatesText}
+                                    onChange={this.handleTextChange} />
+                                <button
+                                    className='save-btn'
+                                    disabled={!candidatesText}>Save</button>
+                            </form>
+                        </div>
+                    )}
                 </div>}
             </div>
         );
