@@ -1,0 +1,19 @@
+docker-machine env default
+@FOR /f "tokens=*" %i IN ('docker-machine env default') DO @%i
+http://192.168.99.100:3333/api/topics
+docker build -t api .
+docker run -d -p 80:3333 api
+--
+docker ps
+docker rm
+
+docker images
+docker rmi
+--
+
+docker-compose build
+docker-compose up
+docker-compose up -d
+docker-compose down
+docker-compose ps
+docker-compose logs
