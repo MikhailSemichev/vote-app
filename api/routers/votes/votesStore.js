@@ -25,12 +25,11 @@ async function vote(topicId, candidateName, login, isVote) {
         return topicVotesCacheItems;
     }
 
-    const voteItem = topicVotesCacheItems.find(v => v.login === login && v.candidateName === candidateName);
+    let voteItem = topicVotesCacheItems.find(v => v.login === login && v.candidateName === candidateName);
 
     if (isVote) {
         if (!voteItem) {
-
-            const voteItem = new Vote({ topicId, candidateName, login });
+            voteItem = new Vote({ topicId, candidateName, login });
 
             // Save to Cache
             topicVotesCacheItems.push(voteItem);
@@ -42,14 +41,12 @@ async function vote(topicId, candidateName, login, isVote) {
                 topicVotesCacheItems.splice(topicVotesCacheItems.indexOf(voteItem), 1);
             }
         }
-    } else {
-        if (voteItem) {
-            // Remove from Mongo
-            await voteItem.remove();
+    } else if (voteItem) {
+        // Remove from Mongo
+        await voteItem.remove();
 
-            // Remove from Cache
-            topicVotesCacheItems.splice(topicVotesCacheItems.indexOf(voteItem), 1);
-        }
+        // Remove from Cache
+        topicVotesCacheItems.splice(topicVotesCacheItems.indexOf(voteItem), 1);
     }
 
     return topicVotesCacheItems;

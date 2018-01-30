@@ -5,7 +5,10 @@ import cn from 'classnames';
 
 import { topicsStore, votesStore, loginStore } from '../../stores';
 import { stableSort } from '../../utils/utils';
+import { ON_TOPIC_CHANGE } from '../../constants/topicEvents';
 import './VotePage.scss';
+
+import NewCandidate from './NewCandidate/NewCandidate';
 
 @withRouter
 @observer
@@ -38,13 +41,18 @@ class VotePage extends Component {
         const topicId = this.getTopicId();
 
         this.closeSocket && this.closeSocket();
-        this.closeSocket = votesStore.onVote(topicId);
+        this.closeSocket = votesStore.onTopicVotesChange(topicId, (type, data) => {
+            if (type === ON_TOPIC_CHANGE) {
+                // Reload all topic information
+                this.loadTopic();
+            }
+        });
 
         const topic = await topicsStore.getTopic(topicId);
 
         this.setState({
             topicId,
-            topic: { ...topic }
+            topic: topic && { ...topic }
         });
     }
 
@@ -54,7 +62,7 @@ class VotePage extends Component {
         const { userInfo } = loginStore;
         let candidatesInfo = [];
 
-        if (topic) {
+        if (topic && topicVotes) {
             candidatesInfo = topic.candidates.map(c => {
                 const logins = topicVotes
                     .filter(v => c.name === v.candidateName)
@@ -114,6 +122,7 @@ class VotePage extends Component {
                             </div>
                         ))}
                     </div>
+                    {topic.isAllowAddCandidates && <NewCandidate topic={topic} />}
                 </div>}
                 {!topic && <div>Loading...</div>}
             </div>

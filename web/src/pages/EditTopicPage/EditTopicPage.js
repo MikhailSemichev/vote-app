@@ -38,7 +38,8 @@ class EditTopicPage extends Component {
                     candidates: _.uniq(topic.candidatesText.split('\n'))
                         .filter(name => name)
                         .map(name => ({ name })),
-                    isActive: topic.isActive
+                    isActive: topic.isActive,
+                    isAllowAddCandidates: topic.isAllowAddCandidates
                 });
                 this.props.history.push('/');
             } catch (err) {
@@ -62,14 +63,14 @@ class EditTopicPage extends Component {
         this.handleValueChange('isAllowAddCandidates', isChecked);
     };
 
-    handleValueChange(name, value) {
+    handleValueChange = (name, value) => {
         this.setState({
             topic: {
                 ...this.state.topic,
                 [name]: value
             }
         });
-    }
+    };
 
     getTopicId() {
         return this.props.match.params.topicId;
@@ -118,7 +119,7 @@ class EditTopicPage extends Component {
                                     id='topicName'
                                     name='name'
                                     value={topic.name}
-                                    onChange={this.handleValueChange}
+                                    onChange={this.handleTextChange}
                                     type='text' />
                             </div>
 
@@ -129,7 +130,7 @@ class EditTopicPage extends Component {
                                 <textarea
                                     id='topicCandidates'
                                     name='candidatesText'
-                                    onChange={this.handleValueChange}
+                                    onChange={this.handleTextChange}
                                     rows='10'
                                     value={topic.candidatesText} />
                             </div>

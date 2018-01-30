@@ -32,6 +32,10 @@ class TopicsStore {
             this.topics = this.topics.filter(t => t.id !== id);
         });
     }
+
+    addCandidates(topicId, newCandidates) {
+        return topicsApi.addCandidates(topicId, newCandidates);
+    }
 }
 
 export default new TopicsStore();

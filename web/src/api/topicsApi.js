@@ -4,7 +4,8 @@ export default {
     getTopics,
     getTopic,
     saveTopic,
-    deleteTopic
+    deleteTopic,
+    addCandidates
 };
 
 async function getTopics() {
@@ -18,10 +19,13 @@ async function getTopic(id) {
 }
 
 function mapTopic(topicJson) {
-    return {
-        ...topicJson,
-        id: topicJson._id
-    };
+    if (topicJson) {
+        return {
+            ...topicJson,
+            id: topicJson._id
+        };
+    }
+    return null;
 }
 
 async function saveTopic(topic) {
@@ -35,4 +39,8 @@ async function saveTopic(topic) {
 
 async function deleteTopic(id) {
     return axios.delete(`/topics/${id}`);
+}
+
+function addCandidates(topicId, newCandidates) {
+    return axios.post('/topics/addCandidates', { topicId, newCandidates });
 }
