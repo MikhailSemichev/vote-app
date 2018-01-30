@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { HashRouter, Switch, Route } from 'react-router-dom';
 
+import 'antd/dist/antd.css';
 import './App.scss';
 
 import AuthRoute from './components/AuthRoute/AuthRoute';

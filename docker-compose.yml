@@ -1,0 +1,26 @@
+version: '2'
+
+services:
+
+  node:
+    container_name: api_1
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    ports:
+      - "3333:3333"
+#    volumes:
+#      - "./api:/usr/api"
+    working_dir: /usr/api
+    networks:
+      - va-network
+
+#  mongodb:
+#    container_name: mongo_1
+#    image: mongo
+#    networks:
+#      - va-network
+
+networks:
+  va-network:
+    driver: bridge

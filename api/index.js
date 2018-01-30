@@ -47,6 +47,12 @@ if (cluster.isMaster && process.env.NODE_ENV !== 'development') {
 
     // error handling
     app.use(errorMiddleware());
+
+    process.on('uncaughtException', err => {
+        console.error('uncaughtException: ', err.message);
+        console.error(err.stack);
+        process.exit(1);
+    });
     //
 
     const port = process.env.PORT || 3333;

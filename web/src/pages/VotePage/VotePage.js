@@ -75,6 +75,23 @@ class VotePage extends Component {
             candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
                 return c2.logins.length - c1.logins.length;
             });
+
+            let place = 1;
+            const TOP_PLACES = 3;
+            let prevVotesCount;
+            candidatesInfo = candidatesInfo.map(c => {
+                if (place <= TOP_PLACES && c.logins.length) {
+                    if (prevVotesCount && prevVotesCount !== c.logins.length) {
+                        place++;
+                    }
+                    prevVotesCount = c.logins.length;
+                    return {
+                        ...c,
+                        place
+                    };
+                }
+                return c;
+            });
         }
 
         return (
@@ -89,15 +106,17 @@ class VotePage extends Component {
                                 <div
                                     className='votes-count'>
                                     <div
-                                        className='count'
+                                        className={cn('count', { [`place-${c.place}`]: c.place })}
                                         title={c.logins.join(' | ')}>
                                         {c.logins.length}
                                     </div>
                                 </div>
                                 <div className='candidate-name'>{c.name}</div>
-                                <i
-                                    className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
-                                    onClick={() => this.handleVote(c.name, !c.isVoted)} />
+                                {topic.isActive &&
+                                    <i
+                                        className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
+                                        onClick={() => this.handleVote(c.name, !c.isVoted)} />
+                                }
                             </div>
                         ))}
                     </div>

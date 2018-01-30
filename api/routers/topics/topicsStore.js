@@ -34,6 +34,7 @@ async function updateTopic(json) {
 
     topic.name = json.name;
     topic.candidates = json.candidates;
+    topic.isActive = json.isActive;
     await topic.save();
 
     return topic;

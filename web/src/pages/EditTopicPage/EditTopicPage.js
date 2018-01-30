@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Switch } from 'antd';
 import { withRouter } from 'react-router-dom';
 import { observer } from 'mobx-react';
 import * as _ from 'lodash';
@@ -36,7 +37,8 @@ class EditTopicPage extends Component {
                     name: topic.name,
                     candidates: _.uniq(topic.candidatesText.split('\n'))
                         .filter(name => name)
-                        .map(name => ({ name }))
+                        .map(name => ({ name })),
+                    isActive: topic.isActive
                 });
                 this.props.history.push('/');
             } catch (err) {
@@ -49,14 +51,25 @@ class EditTopicPage extends Component {
 
     handleTextChange = e => {
         const { name, value } = e.target;
+        this.handleValueChange(name, value);
+    };
 
+    handleStatusChange = isChecked => {
+        this.handleValueChange('isActive', isChecked);
+    };
+
+    handleAllowAddCandidatesChange = isChecked => {
+        this.handleValueChange('isAllowAddCandidates', isChecked);
+    };
+
+    handleValueChange(name, value) {
         this.setState({
             topic: {
                 ...this.state.topic,
                 [name]: value
             }
         });
-    };
+    }
 
     getTopicId() {
         return this.props.match.params.topicId;
@@ -65,7 +78,12 @@ class EditTopicPage extends Component {
     async loadTopic() {
         const topicId = this.getTopicId();
         const topic = topicId ? await topicsStore.getTopic(topicId)
-            : { candidates: [] };
+            : {
+                name: '',
+                isActive: true,
+                isAllowAddCandidates: true,
+                candidates: []
+            };
 
         topic.candidatesText = topic.candidates.map(c => c.name).join('\n');
         this.setState({
@@ -80,38 +98,69 @@ class EditTopicPage extends Component {
 
         return (
             <div className='app-page edit-topic-page'>
-                <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
-                {topic && <form onSubmit={this.handleSubmit}>
-                    <div className='field'>
-                        <div className='field-label'>
-                            <label htmlFor='topicName'>Topic Name</label>
-                        </div>
-                        <input
-                            id='topicName'
-                            name='name'
-                            value={topic.name}
-                            onChange={this.handleTextChange}
-                            type='text' />
-                    </div>
-                    <div className='field'>
-                        <div className='field-label'>
-                            <label htmlFor='topicCandidates'>Topic Candidates</label>
-                        </div>
-                        <textarea
-                            id='topicCandidates'
-                            name='candidatesText'
-                            onChange={this.handleTextChange}
-                            rows='10'
-                            value={topic.candidatesText} />
-                    </div>
-                    <div className='btn-container'>
+                <form onSubmit={this.handleSubmit}>
+                    <div className='page-header'>
+                        <h1>{topicId ? 'Edit' : 'Create'} Topic Page</h1>
                         <button
                             className='save-btn'
                             disabled={isSaving}>
                             {isSaving ? 'Saving...' : 'Save'}
                         </button>
                     </div>
-                </form>}
+
+                    {topic &&
+                        <div>
+                            <div className='field'>
+                                <div className='field-label'>
+                                    <label htmlFor='topicName'>Topic Name</label>
+                                </div>
+                                <input
+                                    id='topicName'
+                                    name='name'
+                                    value={topic.name}
+                                    onChange={this.handleValueChange}
+                                    type='text' />
+                            </div>
+
+                            <div className='field'>
+                                <div className='field-label'>
+                                    <label htmlFor='topicCandidates'>Topic Candidates</label>
+                                </div>
+                                <textarea
+                                    id='topicCandidates'
+                                    name='candidatesText'
+                                    onChange={this.handleValueChange}
+                                    rows='10'
+                                    value={topic.candidatesText} />
+                            </div>
+
+                            <div className='field'>
+                                <label>Topic Status:</label>
+                                <Switch
+                                    checked={topic.isActive}
+                                    onChange={this.handleStatusChange}
+                                    checkedChildren='In progress'
+                                    unCheckedChildren='Closed' />
+                            </div>
+                            <div className='field'>
+                                <label>Allow Add Candidates:</label>
+                                <Switch
+                                    checked={topic.isAllowAddCandidates}
+                                    onChange={this.handleAllowAddCandidatesChange}
+                                    checkedChildren='Yes'
+                                    unCheckedChildren='No' />
+                            </div>
+
+                            <div className='btn-container'>
+                                <button
+                                    className='save-btn'
+                                    disabled={isSaving}>
+                                    {isSaving ? 'Saving...' : 'Save'}
+                                </button>
+                            </div>
+                        </div>
+                    }
+                </form>
                 {!topic && <div>Loading...</div>}
             </div>
         );
