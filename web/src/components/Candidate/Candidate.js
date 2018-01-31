@@ -28,11 +28,19 @@ class Candidate extends Component {
                 {
                     isCategoriesPresented
                         ? categories.map(category => (
-                            <td key={category.title}><span className='count-badge'>{candidate.votesInEachCategory[category.title]}</span></td>
+                            <td key={category.title}>
+                                <span className='count-badge' title={candidate.loginsInEachCategory[category.title]}>
+                                    {candidate.votesInEachCategory[category.title]}
+                                </span>
+                            </td>
                         ))
                         : (<td/>)
                 }
-                <td className='total-cell'><span className='count-badge'>{votesStore.isCategoriesPresented ? candidate.votesInEachCategory.total : candidate.logins.length}</span></td>
+                <td className='total-cell'>
+                    <span className='count-badge' title={candidate.logins.join(' | ')}>
+                        {votesStore.isCategoriesPresented ? candidate.votesInEachCategory.total : candidate.logins.length}
+                    </span>
+                </td>
                 <td className='vote-cell'>
                     {topic.isActive && <i
                         className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !candidate.isVoted, 'fa-thumbs-up': candidate.isVoted })}

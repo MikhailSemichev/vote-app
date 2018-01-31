@@ -67,6 +67,7 @@ class VotesStore {
                         commentByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.comment;
                     }
                     const votesInEachCategory = this.defineVotesInEachCategory(votesForParticularCandidate);
+                    const loginsInEachCategory = this.defineLoginsInEachCategory(votesForParticularCandidate);
 
                     return {
                         name: c.name,
@@ -74,7 +75,8 @@ class VotesStore {
                         logins,
                         choosenCategories: choosenCategoriesByCurrentUserForParticularCandidate,
                         comment: commentByCurrentUserForParticularCandidate,
-                        votesInEachCategory
+                        votesInEachCategory,
+                        loginsInEachCategory
                     };
                 });
             candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
@@ -93,6 +95,20 @@ class VotesStore {
         const categoriesFromEachVote = _.flatten(votesForParticularCandidate.map(vote => toJS(vote.categories)));
         categoriesFromEachVote.forEach(category => result[category.title]++);
         result.total = categoriesFromEachVote.length;
+        return result;
+    }
+
+    defineLoginsInEachCategory(votesForParticularCandidate) {
+        const result = {};
+        this.currentTopic.categories.forEach(category => {
+            result[category.title] = '';
+        });
+
+        votesForParticularCandidate.forEach(vote => {
+            vote.categories.forEach(category => {
+                result[category.title] += ` | ${vote.login}`;
+            });
+        });
         return result;
     }
 
