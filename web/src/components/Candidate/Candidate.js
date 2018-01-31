@@ -26,7 +26,7 @@ class Candidate extends Component {
                 {topic.isActive}
                 <td className={cn('candidate-name-cell', { 'is-voted': candidate.isVoted })}>{candidate.name}</td>
                 {
-                    isCategoriesPresented
+                    isCategoriesPresented && votesStore.isNeedToShowDetailedInformation
                         ? categories.map(category => (
                             <td key={category.title}>
                                 <span className='count-badge' title={candidate.loginsInEachCategory[category.title]}>
@@ -51,18 +51,3 @@ class Candidate extends Component {
     }
 }
 export default Candidate;
-/*
-                <div className={cn('candidate-item', { 'is-voted': c.isVoted })} key={c.name}>
-                    <div className='votes-count'>
-                        <div
-                            className='count'
-                            title={c.logins.join(' | ')}>
-                            {c.logins.length}
-                        </div>
-                    </div>
-                    <div className='candidate-name'>{c.name}</div>
-                    {topic.isActive && <i
-                        className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
-                        onClick={votesStore.isCategoriesPresented ? () => this.handleModalVisible(c) : () => this.handleVote(c.name, !c.isVoted)}/>}
-                </div>
-*/

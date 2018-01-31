@@ -12,6 +12,7 @@ class VotesStore {
     @observable modalVisible = false;
     @observable comment = '';
     @observable voteWithCategories = {};
+    @observable isNeedToShowDetailedInformation = true;
 
     @action
     async vote(topicId, candidateName, isVote) {

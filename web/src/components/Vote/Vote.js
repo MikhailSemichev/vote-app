@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { Switch } from 'antd';
+import { observer } from 'mobx-react';
 
 import { topicsStore, votesStore } from '../../stores';
 import { CandidatesList } from '../CandidatesList';
@@ -7,6 +9,7 @@ import { CandidatesList } from '../CandidatesList';
 import './Vote.scss';
 
 @withRouter
+@observer
 class Vote extends Component {
     state = {};
 
@@ -22,6 +25,10 @@ class Vote extends Component {
 
     componentWillUnmount() {
         this.closeSocket && this.closeSocket();
+    }
+
+    handleStatusChange = (isNeedToShowDetailedInformation) => {
+        votesStore.isNeedToShowDetailedInformation = isNeedToShowDetailedInformation;
     }
 
     getTopicId() {
@@ -48,7 +55,16 @@ class Vote extends Component {
         return (
             <div className='app-page vote-page'>
                 {topic && <div>
-                    <h1>{topic.name}</h1>
+                    <div className='page-header'>
+                        <h1>{topic.name}</h1>
+                        {votesStore.isCategoriesPresented &&
+                            <Switch
+                                checked={votesStore.isNeedToShowDetailedInformation}
+                                onChange={this.handleStatusChange}
+                                checkedChildren='Hide detailed information'
+                                unCheckedChildren='Show detailed information'/>
+                        }
+                    </div>
                     <CandidatesList />
                 </div>}
                 {!topic && <div>Loading...</div>}

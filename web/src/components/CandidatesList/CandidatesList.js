@@ -19,7 +19,7 @@ class CandidatesList extends Component {
                     <tr>
                         <td className='candidate-name-cell'>Candidate Name</td>
                         {
-                            isCategoriesPresented
+                            isCategoriesPresented && votesStore.isNeedToShowDetailedInformation
                                 ? categories.map(category => (
                                     <td key={category.title}>{category.title}</td>
                                 ))
