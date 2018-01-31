@@ -1,0 +1,51 @@
+.vote-page {
+    h1 {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+        margin-bottom: 2rem;
+    }
+    .vote-btn {
+        cursor: pointer;
+    }
+    .is-voted {
+        font-weight: bold;
+    }
+    .candidate-list {
+        width: 100%;
+        table-layout: fixed;
+        border:1px solid #e1e1e1;
+        border-collapse: collapse;
+
+        td {
+            text-align: center;
+            padding: 15px 5px;
+        }
+    }
+    .candidate-list__head {
+        background-color: #e1e1e1;
+        color: #4b4a4d;
+        font-size: 16px;
+        font-weight: 700;
+    }
+    .candidate-list__body {
+        td{
+            border:1px solid #e1e1e1;
+        }
+    }
+    .candidate-name-cell {
+        width: 200px;
+    }
+    .total-cell {
+        width: 100px;
+    }
+    .vote-cell {
+        width: 100px;
+    }
+}
+
+.count-badge{
+    padding: 8px;
+    background-color: #b2b2b2;
+    color:white;
+    border-radius: 10px;
+}

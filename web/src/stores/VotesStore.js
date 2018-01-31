@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed, extendObservable } from 'mobx';
+import { observable, action, runInAction, computed, extendObservable, toJS } from 'mobx';
 import * as _ from 'lodash';
 
 import { stableSort } from '../utils/utils';
@@ -42,6 +42,12 @@ class VotesStore {
     }
 
     @computed
+    get isAllowedToVote() {
+        const isUserRemoveHisVote = this.selectedCandidate.choosenCategories && this.selectedCandidate.choosenCategories.length; // If User wants to remove vote (He've already voted)
+        return _.values(this.voteWithCategories).includes(true) || isUserRemoveHisVote; // Is there at least one checked checkbox? If there is then user is allowed to vote
+    }
+
+    @computed
     get candidatesInfo() {
         let candidatesInfo = [];
         const { userInfo } = loginStore;
@@ -60,13 +66,15 @@ class VotesStore {
                         choosenCategoriesByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.categories;
                         commentByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.comment;
                     }
+                    const votesInEachCategory = this.defineVotesInEachCategory(votesForParticularCandidate);
 
                     return {
                         name: c.name,
                         isVoted: logins.includes(userInfo.login),
                         logins,
                         choosenCategories: choosenCategoriesByCurrentUserForParticularCandidate,
-                        comment: commentByCurrentUserForParticularCandidate
+                        comment: commentByCurrentUserForParticularCandidate,
+                        votesInEachCategory
                     };
                 });
             candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
@@ -75,6 +83,17 @@ class VotesStore {
         }
 
         return candidatesInfo;
+    }
+
+    defineVotesInEachCategory(votesForParticularCandidate) {
+        const result = {};
+        this.currentTopic.categories.forEach(category => {
+            result[category.title] = 0;
+        });
+        const categoriesFromEachVote = _.flatten(votesForParticularCandidate.map(vote => toJS(vote.categories)));
+        categoriesFromEachVote.forEach(category => result[category.title]++);
+        result.total = categoriesFromEachVote.length;
+        return result;
     }
 
     @action
@@ -112,11 +131,7 @@ class VotesStore {
     }
 
     defineValueOfIsVote() {
-        const categories = this.voteWithCategories;
-        if (this.comment.trim()) { // Comment presented?
-            return true; // Need to save vote then
-        }
-        return _.values(categories).includes(true); // Is there at least one checked checkbox? If there is then need to save vote
+        return _.values(this.voteWithCategories).includes(true); // Is there at least one checked checkbox? If there is then need to save vote
     }
 
     defineChosenCategories() {

@@ -3,9 +3,9 @@ import { Modal } from 'antd';
 import { observer } from 'mobx-react';
 import { withRouter } from 'react-router-dom';
 
-import './VoteModal.scss';
-
 import { votesStore } from '../../stores';
+
+import './VoteModal.scss';
 
 @withRouter
 @observer
@@ -15,9 +15,11 @@ class VoteModal extends React.Component {
     }
 
     handleModalOk = (e) => {
-        const topicId = this.props.match.params.topicId;
-        votesStore.vote(topicId, votesStore.selectedCandidate.name);
-        votesStore.modalVisible = false;
+        if (votesStore.isAllowedToVote) {
+            const topicId = this.props.match.params.topicId;
+            votesStore.vote(topicId, votesStore.selectedCandidate.name);
+            votesStore.modalVisible = false;
+        }
     }
 
     handleInputChange = (e) => {
