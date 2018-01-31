@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
-import Vote from '../../components/Vote/Vote';
-import VoteModal from '../../components/VoteModal/VoteModal';
+import { Vote } from '../../components/Vote/';
+import { VoteModal } from '../../components/VoteModal/';
 
 class VotePage extends Component {
     render() {
