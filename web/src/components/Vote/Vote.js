@@ -31,7 +31,7 @@ class Vote extends Component {
 
     handleModalVisible = (candidate) => {
         votesStore.modalVisible = true;
-        votesStore.selectedCandidate = candidate;
+        votesStore.setSelectedCandidate(candidate);
     }
 
     getTopicId() {
@@ -45,7 +45,7 @@ class Vote extends Component {
         this.closeSocket = votesStore.onVote(topicId);
 
         const topic = await topicsStore.getTopic(topicId);
-        votesStore.currentTopic = topic;
+        votesStore.setCurrentTopic(topic);
 
         this.setState({
             topicId,

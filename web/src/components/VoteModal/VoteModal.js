@@ -1,19 +1,31 @@
 import React from 'react';
 import { Modal } from 'antd';
 import { observer } from 'mobx-react';
+import { withRouter } from 'react-router-dom';
 
 import './VoteModal.scss';
 
 import { votesStore } from '../../stores';
 
+@withRouter
 @observer
 class VoteModal extends React.Component {
     handleModalCancel = (e) => {
         votesStore.modalVisible = false;
     }
 
+    handleModalOk = (e) => {
+        const topicId = this.props.match.params.topicId;
+        votesStore.vote(topicId, votesStore.selectedCandidate.name);
+        votesStore.modalVisible = false;
+    }
+
     handleInputChange = (e) => {
-        votesStore.comment = e.target.value;
+        votesStore.voteWithCategories.comment = e.target.value;
+    }
+
+    handleCheckboxChange = (e) => {
+        votesStore.voteWithCategories.categories[e.target.name] = e.target.checked;
     }
 
     render() {
@@ -24,8 +36,7 @@ class VoteModal extends React.Component {
                 visible={votesStore.modalVisible}
                 onOk={this.handleModalOk}
                 onCancel={this.handleModalCancel}
-                okText='Save'
-                destroyOnClose='true'>
+                okText='Save'>
                 <div className='modal-header'>Please select categories for your vote</div>
                 <div className='modal-body'>
                     <div className='modal-body__category-list'>
@@ -35,6 +46,9 @@ class VoteModal extends React.Component {
                                 <div key={category.title} className='modal-body__item'>
                                     <label className='modal-body__label' htmlFor={category.title}>{category.title}</label>
                                     <input
+                                        checked={votesStore.voteWithCategories.categories[category.title]}
+                                        name={category.title}
+                                        onChange={this.handleCheckboxChange}
                                         className='modal-body__checkbox'
                                         id={category.title}
                                         type='checkbox'/>
@@ -50,7 +64,7 @@ class VoteModal extends React.Component {
                             name='comment'
                             onChange={this.handleInputChange}
                             rows='4'
-                            value={votesStore.comment}/>
+                            value={votesStore.voteWithCategories.comment}/>
                     </div>
                 </div>
             </Modal>

@@ -8,8 +8,8 @@ export default {
 
 let socket = null;
 
-function vote(topicId, candidateName, login, isVote) {
-    socket.emit('vote', { topicId, candidateName, login, isVote });
+function vote(topicId, candidateName, login, isVote, voteInfo) {
+    socket.emit('vote', { topicId, candidateName, login, isVote, voteInfo });
 }
 
 function onVote(topicId, cb) {
