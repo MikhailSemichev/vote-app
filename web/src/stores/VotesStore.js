@@ -1,4 +1,5 @@
 import { observable, action, runInAction, computed, extendObservable } from 'mobx';
+import * as _ from 'lodash';
 
 import { stableSort } from '../utils/utils';
 import { votesWs } from '../api';
@@ -9,20 +10,18 @@ class VotesStore {
     @observable currentTopic = null;
     @observable selectedCandidate = null;
     @observable modalVisible = false;
-    @observable voteWithCategories = {
-        comment: '',
-        categories: {}
-    };
+    @observable comment = '';
+    @observable voteWithCategories = {};
 
     @action
     async vote(topicId, candidateName, isVote) {
         let voteInfo = null;
         if (this.isCategoriesPresented) {
             const definedIsVote = this.defineValueOfIsVote();
-            const chosenCategories = this.defineChosenCategories();
-            voteInfo = { categories: chosenCategories, comment: this.voteWithCategories.comment.trim() };
+            const chosenCategories = definedIsVote ? this.defineChosenCategories() : [];
+            voteInfo = { categories: chosenCategories, comment: this.comment.trim() };
             votesWs.vote(topicId, candidateName, loginStore.userInfo.login, definedIsVote, voteInfo);
-            this.voteWithCategories.comment = '';
+            this.comment = '';
         } else {
             voteInfo = { categories: [], comment: '' };
             votesWs.vote(topicId, candidateName, loginStore.userInfo.login, isVote, voteInfo);
@@ -81,13 +80,13 @@ class VotesStore {
     @action
     setCurrentTopic(topic) {
         this.currentTopic = topic;
-        this.voteWithCategories.categories = {};
-        this.voteWithCategories.comment = '';
+        this.voteWithCategories = {};
+        this.comment = '';
         this
             .currentTopic
             .categories
             .forEach(category => {
-                extendObservable(this.voteWithCategories.categories, {
+                extendObservable(this.voteWithCategories, {
                     [category.title]: false
                 });
             });
@@ -97,46 +96,38 @@ class VotesStore {
     setSelectedCandidate(candidate) {
         this.selectedCandidate = candidate;
         this.resetInputCheckBoxes();
-        this.voteWithCategories.comment = candidate.comment;
+        this.comment = candidate.comment;
         if (this.selectedCandidate.choosenCategories) {
             this.selectedCandidate.choosenCategories.forEach(category => {
-                this.voteWithCategories.categories[category.title] = true;
+                this.voteWithCategories[category.title] = true;
             });
         }
     }
 
     @action
     resetInputCheckBoxes() {
-        for (const key in this.voteWithCategories.categories) {
-            if (this.voteWithCategories.categories.hasOwnProperty(key)) {
-                this.voteWithCategories.categories[key] = false;
-            }
-        }
+        _.forOwn(this.voteWithCategories, (value, key) => {
+            this.voteWithCategories[key] = false;
+        });
     }
 
     defineValueOfIsVote() {
-        if (this.voteWithCategories.comment.trim()) { // Comment presented?
+        const categories = this.voteWithCategories;
+        if (this.comment.trim()) { // Comment presented?
             return true; // Need to save vote then
         }
-        for (const key in this.voteWithCategories.categories) {
-            if (this.voteWithCategories.categories.hasOwnProperty(key)) {
-                if (this.voteWithCategories.categories[key]) { // Is there at least one checked checkbox?
-                    return true; // Need to save vote then
-                }
-            }
-        }
-
-        return false; // there is no vote
+        return _.values(categories).includes(true); // Is there at least one checked checkbox? If there is then need to save vote
     }
 
     defineChosenCategories() {
         const choosenCategories = [];
+        const categories = this.voteWithCategories;
 
-        for (const key in this.voteWithCategories.categories) {
-            if (this.voteWithCategories.categories.hasOwnProperty(key) && this.voteWithCategories.categories[key]) {
-                choosenCategories.push({ title: key });
+        _.forOwn(categories, (value, key) => {
+            if (value) {
+                choosenCategories.push({ title: key }); // take checked checkboxes and push them in array
             }
-        }
+        });
 
         return choosenCategories;
     }

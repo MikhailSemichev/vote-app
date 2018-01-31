@@ -21,11 +21,11 @@ class VoteModal extends React.Component {
     }
 
     handleInputChange = (e) => {
-        votesStore.voteWithCategories.comment = e.target.value;
+        votesStore.comment = e.target.value;
     }
 
     handleCheckboxChange = (e) => {
-        votesStore.voteWithCategories.categories[e.target.name] = e.target.checked;
+        votesStore.voteWithCategories[e.target.name] = e.target.checked;
     }
 
     render() {
@@ -46,7 +46,7 @@ class VoteModal extends React.Component {
                                 <div key={category.title} className='modal-body__item'>
                                     <label className='modal-body__label' htmlFor={category.title}>{category.title}</label>
                                     <input
-                                        checked={votesStore.voteWithCategories.categories[category.title]}
+                                        checked={votesStore.voteWithCategories[category.title]}
                                         name={category.title}
                                         onChange={this.handleCheckboxChange}
                                         className='modal-body__checkbox'
@@ -64,7 +64,7 @@ class VoteModal extends React.Component {
                             name='comment'
                             onChange={this.handleInputChange}
                             rows='4'
-                            value={votesStore.voteWithCategories.comment}/>
+                            value={votesStore.comment}/>
                     </div>
                 </div>
             </Modal>
