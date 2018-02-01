@@ -10,11 +10,11 @@ import './VoteModal.scss';
 @withRouter
 @observer
 class VoteModal extends React.Component {
-    handleModalCancel = (e) => {
+    handleModalCancel = () => {
         votesStore.modalVisible = false;
     }
 
-    handleModalOk = (e) => {
+    handleModalOk = () => {
         if (votesStore.isAllowedToVote) {
             const topicId = this.props.match.params.topicId;
             votesStore.vote(topicId, votesStore.selectedCandidate.name);

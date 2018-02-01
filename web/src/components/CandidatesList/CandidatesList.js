@@ -9,9 +9,8 @@ import './CandidatesList.scss';
 @observer
 class CandidatesList extends Component {
     render() {
-        const candidatesInfo = votesStore.candidatesInfo;
+        const { candidatesInfo, isCategoriesPresented, isNeedToShowDetailedInformation } = votesStore;
         const categories = votesStore.currentTopic.categories;
-        const isCategoriesPresented = votesStore.isCategoriesPresented;
 
         return (
             <table className='candidate-list'>
@@ -19,7 +18,7 @@ class CandidatesList extends Component {
                     <tr>
                         <td className='candidate-name-cell'>Candidate Name</td>
                         {
-                            isCategoriesPresented && votesStore.isNeedToShowDetailedInformation
+                            isCategoriesPresented && isNeedToShowDetailedInformation
                                 ? categories.map(category => (
                                     <td key={category.title}>{category.title}</td>
                                 ))

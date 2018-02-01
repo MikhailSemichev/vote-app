@@ -8,29 +8,27 @@ import { votesStore } from '../../stores';
 
 @withRouter
 class Candidate extends Component {
-    handleVote = (candidateName, isVote) => {
+    handleVote = () => {
         const topicId = this.props.match.params.topicId;
-        votesStore.vote(topicId, candidateName, isVote);
+        votesStore.vote(topicId, this.props.candidate.name, !this.props.candidate.isVoted);
     };
 
-    handleModalVisible = (candidate) => {
+    handleModalVisible = () => {
         votesStore.modalVisible = true;
-        votesStore.setSelectedCandidate(candidate);
+        votesStore.setSelectedCandidate(this.props.candidate);
     }
 
-    handlePopoverClick(candidate) {
-        votesStore.defineCommentsForChoosenCandidate(candidate);
+    handlePopoverClick = () => {
+        votesStore.defineCommentsForChoosenCandidate(this.props.candidate);
     }
 
     render() {
-        const topic = votesStore.currentTopic;
+        const { currentTopic : topic, isCategoriesPresented } = votesStore;
         const candidate = this.props.candidate;
         const categories = votesStore.currentTopic.categories;
-        const isCategoriesPresented = votesStore.isCategoriesPresented;
 
         return (
             <tr>
-                {topic.isActive}
                 <td className={cn('candidate-name-cell', { 'is-voted': candidate.isVoted })}>{candidate.name}</td>
                 {isCategoriesPresented && votesStore.isNeedToShowDetailedInformation
                     ? categories.map(category => (
@@ -48,10 +46,10 @@ class Candidate extends Component {
                     {votesStore.isCategoriesPresented
                         ? <Popover
                             placement='bottom'
-                            content={< Comments />}
+                            content={<Comments />}
                             title='Comments from users'
                             trigger='click'
-                            onClick={() => this.handlePopoverClick(candidate)}>
+                            onClick={this.handlePopoverClick}>
                             <span
                                 className='count-badge clickable-badge'
                                 title={candidate.logins.join(' | ')}>
@@ -71,9 +69,7 @@ class Candidate extends Component {
                 <td className='vote-cell'>
                     {topic.isActive && <i
                         className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !candidate.isVoted, 'fa-thumbs-up': candidate.isVoted })}
-                        onClick={votesStore.isCategoriesPresented
-                            ? () => this.handleModalVisible(candidate)
-                            : () => this.handleVote(candidate.name, !candidate.isVoted)}/>}
+                        onClick={votesStore.isCategoriesPresented ? this.handleModalVisible : this.handleVote}/>}
                 </td>
             </tr>
         );

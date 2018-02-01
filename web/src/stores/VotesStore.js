@@ -45,8 +45,8 @@ class VotesStore {
 
     @computed
     get isAllowedToVote() {
-        const isUserRemoveHisVote = this.selectedCandidate.choosenCategories && this.selectedCandidate.choosenCategories.length; // If User wants to remove vote (He've already voted)
-        return _.values(this.voteWithCategories).includes(true) || isUserRemoveHisVote; // Is there at least one checked checkbox? If there is then user is allowed to vote
+        const isUserAllowedRemoveHisVote = this.selectedCandidate.choosenCategories && this.selectedCandidate.choosenCategories.length; // If User wants to remove vote (He've already voted)
+        return _.values(this.voteWithCategories).includes(true) || isUserAllowedRemoveHisVote; // Is there at least one checked checkbox? If there is then user is allowed to vote
     }
 
     @computed
@@ -113,7 +113,6 @@ class VotesStore {
         this.currentTopic.categories.forEach(category => {
             result[category.title] = [];
         });
-
         votesForParticularCandidate.forEach(vote => {
             vote.categories.forEach(category => {
                 result[category.title].push(vote.login);
