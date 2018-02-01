@@ -130,7 +130,7 @@ class EditTopicPage extends Component {
                             name='candidatesText'
                             onChange={this.handleTextChange}
                             rows='10'
-                            value={topic.candidatesText} />
+                            value={topic.candidatesText}/>
                     </div>
                     <div className='field'>
                         <div className='field-label'>
@@ -141,7 +141,8 @@ class EditTopicPage extends Component {
                             name='categoriesText'
                             onChange={this.handleTextChange}
                             rows='5'
-                            value={topic.categoriesText}/>
+                            value={topic.categoriesText}
+                            readOnly={topicId}/>
                     </div>
                     <div className='btn-container'>
                         <button

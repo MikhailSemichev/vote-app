@@ -68,8 +68,8 @@ class VotesStore {
                         choosenCategoriesByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.categories;
                         commentByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.comment;
                     }
-                    const votesInEachCategory = this.defineVotesInEachCategory(votesForParticularCandidate);
-                    const loginsInEachCategory = this.defineLoginsInEachCategory(votesForParticularCandidate);
+                    const votesInEachCategory = this.isCategoriesPresented && this.defineVotesInEachCategory(votesForParticularCandidate);
+                    const loginsInEachCategory = this.isCategoriesPresented && this.defineLoginsInEachCategory(votesForParticularCandidate);
 
                     return {
                         name: c.name,
