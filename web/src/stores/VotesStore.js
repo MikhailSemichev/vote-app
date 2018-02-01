@@ -102,12 +102,12 @@ class VotesStore {
     defineLoginsInEachCategory(votesForParticularCandidate) {
         const result = {};
         this.currentTopic.categories.forEach(category => {
-            result[category.title] = '';
+            result[category.title] = [];
         });
 
         votesForParticularCandidate.forEach(vote => {
             vote.categories.forEach(category => {
-                result[category.title] += ` | ${vote.login}`;
+                result[category.title].push(vote.login);
             });
         });
         return result;

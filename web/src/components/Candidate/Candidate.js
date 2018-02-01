@@ -29,7 +29,7 @@ class Candidate extends Component {
                     isCategoriesPresented && votesStore.isNeedToShowDetailedInformation
                         ? categories.map(category => (
                             <td key={category.title}>
-                                <span className='count-badge' title={candidate.loginsInEachCategory[category.title]}>
+                                <span className='count-badge' title={candidate.loginsInEachCategory[category.title].join(' | ')}>
                                     {candidate.votesInEachCategory[category.title]}
                                 </span>
                             </td>
