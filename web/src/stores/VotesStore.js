@@ -13,6 +13,7 @@ class VotesStore {
     @observable comment = '';
     @observable voteWithCategories = {};
     @observable isNeedToShowDetailedInformation = true;
+    @observable allCommentsForChoosenCandidate = 'Loading...';
 
     @action
     async vote(topicId, candidateName, isVote) {
@@ -86,6 +87,14 @@ class VotesStore {
         }
 
         return candidatesInfo;
+    }
+
+    @action
+    defineCommentsForChoosenCandidate(candidate) {
+        this.allCommentsForChoosenCandidate = 'Loading...';
+        const votesForCandidate = this.topicVotes.filter(vote => candidate.name === vote.candidateName);
+        const votesWhereCommentPresented = votesForCandidate.filter(vote => vote.comment);
+        this.allCommentsForChoosenCandidate = votesWhereCommentPresented.map(vote => ({ login : vote.login, comment: vote.comment }));
     }
 
     defineVotesInEachCategory(votesForParticularCandidate) {
