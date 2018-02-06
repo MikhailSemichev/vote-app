@@ -19,8 +19,8 @@ async function getTopicVotes(topicId) {
 }
 
 function computeInfoForCandidates(topic, topicVotes) {
+    const isCategoriesPresented = topic.categories.length > 0;
     const candidatesInfo = topic.candidates.map(c => {
-        const isCategoriesPresented = topic.categories.length > 0;
         const votesForParticularCandidate = topicVotes.filter(v => c.name === v.candidateName);
         const logins = votesForParticularCandidate.map(v => v.login);
         const votesInEachCategory = isCategoriesPresented ? defineVotesInEachCategory(topic, votesForParticularCandidate) : [];
@@ -33,7 +33,7 @@ function computeInfoForCandidates(topic, topicVotes) {
                 loginsInEachCategory
             };
         });
-        return candidatesInfo;
+    return candidatesInfo;
 }
 
 function defineVotesInEachCategory(topic, votesForParticularCandidate) {
