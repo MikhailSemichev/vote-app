@@ -5,6 +5,8 @@
     "main": "index.js",
     "scripts": {
         "start": "set NODE_ENV=development&& nodemon --inspect=43499 index.js --debug-brk",
+        "prod": "cross-env NODE_ENV=production && pm2 start index.js -i 4",
+        "stop": "pm2 stop all",
         "start_heroku": "forever index.js"
     },
     "author": "",
@@ -13,6 +15,7 @@
         "babel-eslint": "^8.1.2",
         "body-parser": "^1.18.2",
         "cors": "^2.8.4",
+        "cross-env": "^5.1.3",
         "eslint": "^4.14.0",
         "express": "^4.16.2",
         "forever": "^0.15.3",
@@ -20,6 +23,7 @@
         "mongoose": "^5.0.0-rc0",
         "nocache": "^2.0.0",
         "nodemon": "^1.14.7",
+        "pm2": "^2.9.3",
         "save": "^2.3.2",
         "socket.io": "^2.0.4",
         "ws": "^3.3.3"

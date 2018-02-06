@@ -1,12 +1,14 @@
 const express = require('express');
 const topicsStore = require('./topicsStore');
 const admin = require('../../middleware/adminMiddleware');
+const Topic = require('./Topic');
 
 module.exports = app => {
     const topicsRouter = express.Router();
     app.use('/api/topics', topicsRouter);
 
     topicsRouter.get('/', app.wrap(async (req, res) => {
+        // const topics = await Topic.find();
         const topics = await topicsStore.getTopics();
         res.json(topics);
     }));
