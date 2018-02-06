@@ -1,5 +1,6 @@
 const Vote = require('./Vote');
 const topicsStore = require('../topics/topicsStore');
+const _ = require('lodash');
 
 const cache = {};
 
@@ -11,7 +12,52 @@ module.exports = {
 
 async function getTopicVotes(topicId) {
     await ensureTopicVotesInCache(topicId);
-    return cache[topicId];
+    const topicVotes = cache[topicId];
+    const topic = await topicsStore.getTopic(topicId);
+    const candidatesInfo = computeInfoForCandidates(topic, topicVotes);
+    return { topicVotes, candidatesInfo };
+}
+
+function computeInfoForCandidates(topic, topicVotes) {
+    const candidatesInfo = topic.candidates.map(c => {
+        const isCategoriesPresented = topic.categories.length > 0;
+        const votesForParticularCandidate = topicVotes.filter(v => c.name === v.candidateName);
+        const logins = votesForParticularCandidate.map(v => v.login);
+        const votesInEachCategory = isCategoriesPresented ? defineVotesInEachCategory(topic, votesForParticularCandidate) : [];
+        const loginsInEachCategory = isCategoriesPresented ? defineLoginsInEachCategory(topic, votesForParticularCandidate) : [];
+
+            return {
+                name: c.name,
+                logins,
+                votesInEachCategory,
+                loginsInEachCategory
+            };
+        });
+        return candidatesInfo;
+}
+
+function defineVotesInEachCategory(topic, votesForParticularCandidate) {
+    const result = {};
+    topic.categories.forEach(category => {
+        result[category.title] = 0;
+    });
+    const categoriesFromEachVote = _.flatten(votesForParticularCandidate.map(vote => vote.categories));
+    categoriesFromEachVote.forEach(category => result[category.title]++);
+    result.total = categoriesFromEachVote.length;
+    return result;
+}
+
+function defineLoginsInEachCategory(topic, votesForParticularCandidate) {
+    const result = {};
+    topic.categories.forEach(category => {
+        result[category.title] = [];
+    });
+    votesForParticularCandidate.forEach(vote => {
+        vote.categories.forEach(category => {
+            result[category.title].push(vote.login);
+        });
+    });
+    return result;
 }
 
 async function vote(topicId, candidateName, login, isVote, voteInfo) {
@@ -38,7 +84,10 @@ async function vote(topicId, candidateName, login, isVote, voteInfo) {
         }
     }
 
-    return cache[topicId];
+    const topicVotes = cache[topicId];
+    const candidatesInfo = computeInfoForCandidates(topicItem, topicVotesCacheItems);
+
+    return { topicVotes, candidatesInfo };
 }
 
 async function createVoteItem(topicId, candidateName, login, voteInfo) {

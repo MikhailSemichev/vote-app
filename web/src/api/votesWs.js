@@ -15,8 +15,8 @@ function vote(topicId, candidateName, login, isVote, voteInfo) {
 function onVote(topicId, cb) {
     socket = io(`${config.SERVICE_URL}/votes`, { query: `topicId=${topicId}` });
 
-    socket.on('onVote', topicVotes => {
-        cb(topicVotes);
+    socket.on('onVote', (topicVotes, candidatesInfo) => {
+        cb(topicVotes, candidatesInfo);
     });
 
     return () => socket.close();

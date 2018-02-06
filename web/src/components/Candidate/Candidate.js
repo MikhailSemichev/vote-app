@@ -35,7 +35,7 @@ class Candidate extends Component {
                         <td key={category.title}>
                             <span
                                 className='count-badge'
-                                title={candidate.loginsInEachCategory[category.title].join(' | ')}>
+                                title={candidate.loginsInEachCategory[category.title] && candidate.loginsInEachCategory[category.title].join(' | ')}>
                                 {candidate.votesInEachCategory[category.title]}
                             </span>
                         </td>

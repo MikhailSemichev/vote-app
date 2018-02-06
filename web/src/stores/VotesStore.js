@@ -1,4 +1,4 @@
-import { observable, action, runInAction, computed, extendObservable, toJS } from 'mobx';
+import { observable, action, runInAction, computed, extendObservable } from 'mobx';
 import * as _ from 'lodash';
 
 import { stableSort } from '../utils/utils';
@@ -14,6 +14,7 @@ class VotesStore {
     @observable voteWithCategories = {};
     @observable isNeedToShowDetailedInformation = true;
     @observable allCommentsForChoosenCandidate = 'Loading...';
+    @observable _candidatesInfo = []; // if it is not observable then candidatesInfo() doesn't recompute
 
     @action
     async vote(topicId, candidateName, isVote) {
@@ -31,9 +32,10 @@ class VotesStore {
     }
 
     onVote(topicId) {
-        return votesWs.onVote(topicId, topicVotes => {
+        return votesWs.onVote(topicId, (topicVotes, candidatesInfo) => {
             runInAction(() => {
                 this.topicVotes = topicVotes;
+                this._candidatesInfo = candidatesInfo;
             });
         });
     }
@@ -45,7 +47,7 @@ class VotesStore {
 
     @computed
     get isAllowedToVote() {
-        const isUserAllowedRemoveHisVote = this.selectedCandidate.choosenCategories && this.selectedCandidate.choosenCategories.length; // If User wants to remove vote (He've already voted)
+        const isUserAllowedRemoveHisVote = this.selectedCandidate.choosenCategories && this.selectedCandidate.choosenCategories.length; // If User wants to remove vote (allowed if He've already voted)
         return _.values(this.voteWithCategories).includes(true) || isUserAllowedRemoveHisVote; // Is there at least one checked checkbox? If there is then user is allowed to vote
     }
 
@@ -53,38 +55,27 @@ class VotesStore {
     get candidatesInfo() {
         let candidatesInfo = [];
         const { userInfo } = loginStore;
-
-        if (this.currentTopic) {
-            candidatesInfo = this
-                .currentTopic
-                .candidates
-                .map(c => {
-                    const votesForParticularCandidate = this.topicVotes.filter(v => c.name === v.candidateName);
-                    const logins = votesForParticularCandidate.map(v => v.login);
-                    const voteByCurrentUserForParticularCandidate = votesForParticularCandidate.find(vote => vote.login === userInfo.login);
-                    let choosenCategoriesByCurrentUserForParticularCandidate = null;
-                    let commentByCurrentUserForParticularCandidate = '';
-                    if (voteByCurrentUserForParticularCandidate) {
-                        choosenCategoriesByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.categories;
-                        commentByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.comment;
-                    }
-                    const votesInEachCategory = this.isCategoriesPresented && this.defineVotesInEachCategory(votesForParticularCandidate);
-                    const loginsInEachCategory = this.isCategoriesPresented && this.defineLoginsInEachCategory(votesForParticularCandidate);
-
-                    return {
-                        name: c.name,
-                        isVoted: logins.includes(userInfo.login),
-                        logins,
-                        choosenCategories: choosenCategoriesByCurrentUserForParticularCandidate,
-                        comment: commentByCurrentUserForParticularCandidate,
-                        votesInEachCategory,
-                        loginsInEachCategory
-                    };
-                });
-            candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
-                return c2.logins.length - c1.logins.length;
+        candidatesInfo = this
+            ._candidatesInfo
+            .map(c => {
+                const votesForParticularCandidate = this.topicVotes.filter(v => c.name === v.candidateName);
+                const voteByCurrentUserForParticularCandidate = votesForParticularCandidate.find(vote => vote.login === userInfo.login);
+                let choosenCategoriesByCurrentUserForParticularCandidate = null;
+                let commentByCurrentUserForParticularCandidate = '';
+                if (voteByCurrentUserForParticularCandidate) {
+                    choosenCategoriesByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.categories;
+                    commentByCurrentUserForParticularCandidate = voteByCurrentUserForParticularCandidate.comment;
+                }
+                return {
+                    ...c,
+                    isVoted: c.logins.includes(userInfo.login),
+                    choosenCategories: choosenCategoriesByCurrentUserForParticularCandidate,
+                    comment: commentByCurrentUserForParticularCandidate
+                };
             });
-        }
+        candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
+            return c2.logins.length - c1.logins.length;
+        });
 
         return candidatesInfo;
     }
@@ -95,30 +86,6 @@ class VotesStore {
         const votesForCandidate = this.topicVotes.filter(vote => candidate.name === vote.candidateName);
         const votesWhereCommentPresented = votesForCandidate.filter(vote => vote.comment);
         this.allCommentsForChoosenCandidate = votesWhereCommentPresented.map(vote => ({ login : vote.login, comment: vote.comment }));
-    }
-
-    defineVotesInEachCategory(votesForParticularCandidate) {
-        const result = {};
-        this.currentTopic.categories.forEach(category => {
-            result[category.title] = 0;
-        });
-        const categoriesFromEachVote = _.flatten(votesForParticularCandidate.map(vote => toJS(vote.categories)));
-        categoriesFromEachVote.forEach(category => result[category.title]++);
-        result.total = categoriesFromEachVote.length;
-        return result;
-    }
-
-    defineLoginsInEachCategory(votesForParticularCandidate) {
-        const result = {};
-        this.currentTopic.categories.forEach(category => {
-            result[category.title] = [];
-        });
-        votesForParticularCandidate.forEach(vote => {
-            vote.categories.forEach(category => {
-                result[category.title].push(vote.login);
-            });
-        });
-        return result;
     }
 
     @action

@@ -20,15 +20,15 @@ module.exports = ioGlobal => {
         socket.topicId = topicId;
         socket.join(topicId);
 
-        const topicVotes = await votesStore.getTopicVotes(topicId);
+        const { topicVotes, candidatesInfo } = await votesStore.getTopicVotes(topicId);
 
-        socket.emit('onVote', topicVotes);
+        socket.emit('onVote', topicVotes, candidatesInfo);
         socket.on('vote', vote);
     });
 
     async function vote({ topicId, candidateName, login, isVote, voteInfo }) {
-        const topicVotes = await votesStore.vote(topicId, candidateName, login, isVote, voteInfo);
+        const { topicVotes, candidatesInfo } = await votesStore.vote(topicId, candidateName, login, isVote, voteInfo);
         // Notify all clients
-        io.to(topicId).emit('onVote', topicVotes);
+        io.to(topicId).emit('onVote', topicVotes, candidatesInfo);
     }
 };
