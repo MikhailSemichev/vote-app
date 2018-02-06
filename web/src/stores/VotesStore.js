@@ -15,6 +15,7 @@ class VotesStore {
     @observable isNeedToShowDetailedInformation = true;
     @observable allCommentsForChoosenCandidate = 'Loading...';
     @observable _candidatesInfo = []; // if it is not observable then candidatesInfo() doesn't recompute
+    @observable sortingValue = 'total';
 
     @action
     async vote(topicId, candidateName, isVote) {
@@ -76,6 +77,12 @@ class VotesStore {
         candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
             return c2.logins.length - c1.logins.length;
         });
+        if (this.isCategoriesPresented) {
+            const bindedContextSortingValue = this.sortingValue;
+            candidatesInfo = _.sortBy(candidatesInfo, [(obj) => {
+                return obj.votesInEachCategory[bindedContextSortingValue];
+            }]).reverse();
+        }
 
         return candidatesInfo;
     }
@@ -93,6 +100,7 @@ class VotesStore {
         this.currentTopic = topic;
         this.voteWithCategories = {};
         this.comment = '';
+        this.sortingValue = 'total';
         this
             .currentTopic
             .categories

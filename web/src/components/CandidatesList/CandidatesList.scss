@@ -26,6 +26,10 @@
         color: #4b4a4d;
         font-size: 16px;
         font-weight: 700;
+
+        &:hover {
+            cursor: pointer;
+        }
     }
     .candidate-list__body {
         td{
@@ -40,6 +44,19 @@
     }
     .vote-cell {
         width: 70px;
+    }
+    .choosen-as-sorter {
+        position: relative;
+
+        &::after {
+            position: absolute;
+            content:'';
+            border: 10px solid transparent;
+            border-top: 10px solid #4285f4;
+            display: inline-block;
+            bottom: -8px;
+            left: calc(50% - 10px);
+        }
     }
 }
 
