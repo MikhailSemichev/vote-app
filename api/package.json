@@ -4,9 +4,11 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "set NODE_ENV=development&& nodemon --inspect=43499 index.js --debug-brk",
-        "prod": "cross-env NODE_ENV=production && pm2 start index.js -i 4",
+        "start": "cross-env NODE_ENV=development nodemon --inspect=43499 index.js --debug-brk",
+        "prod": "cross-env NODE_ENV=production pm2 start index.js -i 4 && pm2 monit",
         "stop": "pm2 stop all",
+        "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics",
+
         "start_heroku": "forever index.js"
     },
     "author": "",
