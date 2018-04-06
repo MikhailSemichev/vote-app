@@ -47,7 +47,7 @@ class LoginPage extends Component {
                     <input
                         type='text'
                         defaultValue={userInfo ? userInfo.login : ''}
-                        placeholder='Please type your login...'
+                        placeholder='Please type your name as in UPSA...'
                         ref={r => this.loginRef = r} />
                     <div className='btn-container'>
                         <div className='admin-container'>
