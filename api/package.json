@@ -9,6 +9,7 @@
         "stop": "pm2 stop all",
         "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics",
 
+        "start_gcp": "node index.js",
         "start_heroku": "forever index.js"
     },
     "author": "",

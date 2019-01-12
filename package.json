@@ -8,12 +8,12 @@
     },
     "scripts": {
         "i": "cd web && npm i && cd ../api && npm i",
-        "start": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
+        "dev": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
         "dev_i": "npm run build_web && node copy-build.js && npm run build-api",
         "build_web": "cd web && npm i && npm run build",
         "copy_web": "node copy-build.js",
         "build_api": "cd api && npm i",
-        "heroku": "cd api && npm i && npm run start_heroku"
+        "start": "cd api && npm run start_gcp"
     },
     "repository": {
         "type": "git",
