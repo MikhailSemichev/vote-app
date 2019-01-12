@@ -9,9 +9,9 @@
     "scripts": {
         "i": "cd web && npm i && cd ../api && npm i",
         "start": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
-        "----heroku-scripts----": "",
-        "postinstall": "cross-env SERVICE_URL=https://va0.herokuapp.com npm run build_web && node copy-build.js",
+        "postinstall": "npm run build_web && node copy-build.js && npm run build-api",
         "build_web": "cd web && npm i && npm run build",
+        "build_api": "cd api && npm i",
         "heroku": "cd api && npm i && npm run start_heroku"
     },
     "repository": {
