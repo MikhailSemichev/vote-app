@@ -27,7 +27,7 @@ jobs:
     # Replace <your-project-id>
     - run: gcloud config set project $GCLOUD_PROJECT
     # Run deploy script
-    - run: deploy.sh
+    - run: ./deploy.sh
                
 workflows:
   version: 2
