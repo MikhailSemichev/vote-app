@@ -5,7 +5,4 @@
 
     # deploy to AppEngine
     # where $1 = --version=$SERVICE_VERSION
-    gcloud -q app deploy app.yaml --promote 1
-    # Run our E2E Test
-    #- python e2e_test.py
-
+    gcloud -q app deploy app.yaml --promote --version=1
