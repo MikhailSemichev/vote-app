@@ -13,8 +13,14 @@ jobs:
     # Install NodeJS - latest 10.x.x version
     - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
     - run: apt-get install -y nodejs
-    # Build web application and api
+    # Install helper packages
     - run: npm install
+    # Build web application
+    - run: npm run build_web
+    # Copy web application
+    - run: npm run copy_web
+    # Build service
+    - run: npm run build_api
     # Retrieve secrets from the CircleCI environment
     - run: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
     # Authenticate gcloud
