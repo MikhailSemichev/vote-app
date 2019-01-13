@@ -4,6 +4,7 @@ jobs:
   deploy-gcp:
     environment:
       GCLOUD_PROJECT: vote-app-1
+      SERVICE_VERSION: 1
     docker:
     - image: google/cloud-sdk
     steps:
@@ -26,10 +27,8 @@ jobs:
     - run: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
     # Replace <your-project-id>
     - run: gcloud config set project $GCLOUD_PROJECT
-    # Set permissons for shell script
-    - run: chmod +x ./scripts/deploy.sh
     # Run deploy script
-    - run: ./scripts/deploy.sh
+    - run: gcloud -q app deploy app.yaml --promote --version=$SERVICE_VERSION
                
 workflows:
   version: 2
