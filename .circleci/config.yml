@@ -23,8 +23,6 @@ jobs:
     - run: npm run build_api
     # Retrieve secrets from the CircleCI environment
     - run: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
-    # Update gcloud
-    - run: gcloud components update
     # Authenticate gcloud
     - run: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
     # Replace <your-project-id>

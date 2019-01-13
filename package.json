@@ -13,7 +13,7 @@
         "build_web": "cd web && npm i && npm run build",
         "copy_web": "node copy-build.js",
         "build_api": "cd api && npm i",
-        "start": "cd api && npm run start_gcp"
+        "start": "cd api"
     },
     "repository": {
         "type": "git",
