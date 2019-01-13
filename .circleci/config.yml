@@ -25,6 +25,8 @@ jobs:
     - run: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
     # Authenticate gcloud
     - run: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+    # Test
+    - run: gcloud services list
     # Replace <your-project-id>
     - run: gcloud config set project $GCLOUD_PROJECT
     # Run deploy script
