@@ -8,9 +8,8 @@
         "prod": "cross-env NODE_ENV=production pm2 start index.js -i 4 && pm2 monit",
         "stop": "pm2 stop all",
         "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics",
-
         "start_gcp": "node index.js",
-        "start_heroku": "forever index.js"
+        "start_cloud": "node index.js"
     },
     "author": "",
     "license": "ISC",
