@@ -1,7 +1,5 @@
 const express = require('express');
 const http = require('http');
-const fs = require('fs');
-const path = require('path');
 
 const app = express();
 const server = http.createServer(app);
@@ -23,23 +21,7 @@ app.use(nocache());
 const mongodb = require('./db/mongodb');
 mongodb.connect();
 
-const staticFolder = path.join(__dirname, 'www');
-
-app.use('/html', (req, res) => {
-    fs.readdir(staticFolder, (err, files) => {
-        if (err) {
-            res.send(err);
-        }
-        const results = [];
-        files.forEach(file => {
-            results.push(file);
-        });
-        console.log(JSON.stringify(results));
-        res.send(JSON.stringify(results));
-    });
-});
-
-app.use(express.static(staticFolder));
+app.use(express.static('www'));
 
 app.get('/test', (req, res) => {
     res.send('Vote App Api');
