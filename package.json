@@ -13,7 +13,7 @@
         "build_web": "cd web && npm i",
         "copy_web": "node copy-build.js",
         "build_api": "cd api && npm i",
-        "prestart": "npm run build_web",
+        "prestart": "cd web && npm i",
         "start": "node ./api/index.js"
     },
     "repository": {
