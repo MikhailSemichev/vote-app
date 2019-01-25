@@ -10,10 +10,10 @@
         "i": "cd web && npm i && cd ../api && npm i",
         "dev": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
         "dev_i": "npm run build_web && node copy-build.js && npm run build-api",
-        "build_web": "cd web && npm i && npm run build",
+        "build_web": "cd web && npm i && npm run build && npm run copy_web",
         "copy_web": "node copy-build.js",
         "build_api": "cd api && npm i",
-        "prestart": "npm run build_api && npm run copy_web",
+        "prestart": "npm run build_api",
         "start": "cd api && npm run start_cloud"
     },
     "repository": {
