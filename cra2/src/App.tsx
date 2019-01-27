@@ -1,10 +1,14 @@
 import * as React from 'react';
-import { Router, Switch, Route, Redirect } from 'react-router-dom';
+import { Router, Switch, Route } from 'react-router-dom';
 
 import history from './utils/history';
 
+import AuthRoute from './components/AuthRoute/AuthRoute';
 import Header from './components/Header/Header';
 import LoginPage from './pages/LoginPage/LoginPage';
+import TopicListPage from './pages/TopicListPage/TopicListPage';
+import EditTopicPage from './pages/EditTopicPage/EditTopicPage';
+import VotePage from './pages/VotePage/VotePage';
 
 import './App.scss';
 
@@ -15,8 +19,22 @@ class App extends React.Component {
                 <div className="app">
                     <Header />
                     <Switch>
-                        <Route path="/login" component={LoginPage} />
-                        <Redirect to="/login" />
+                        <Switch>
+                            <Route path="/login" component={LoginPage} />
+                            <AuthRoute
+                                exact={true}
+                                path="/"
+                                component={TopicListPage}
+                            />
+                            <AuthRoute
+                                path="/topic/:topicId?"
+                                component={EditTopicPage}
+                            />
+                            <AuthRoute
+                                path="/vote/:topicId"
+                                component={VotePage}
+                            />
+                        </Switch>
                     </Switch>
                 </div>
             </Router>

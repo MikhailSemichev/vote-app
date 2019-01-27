@@ -5,6 +5,8 @@ import { loginStore } from '../../stores';
 
 interface IProps {
     component: React.ComponentClass;
+    exact?: boolean;
+    path: string;
 }
 
 export default class AuthRoute extends React.Component<IProps> {
