@@ -3,3 +3,9 @@ export interface ITopic {
     id: string;
     name: string;
 }
+
+export interface IVote {
+    topicId: string;
+    candidateName: string;
+    login: string;
+}

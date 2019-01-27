@@ -8,7 +8,8 @@ import { loginStore } from '../../stores';
 import './LoginPage.scss';
 
 @observer
-export default class LoginPage extends Component {
+@(withRouter as any)
+export default class LoginPage extends Component<RouteComponentProps> {
     state = { showAdminPassword: false };
 
     private loginRef = React.createRef<HTMLInputElement>();

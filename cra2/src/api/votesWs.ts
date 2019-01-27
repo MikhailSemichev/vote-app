@@ -6,7 +6,7 @@ export default {
     onTopicVotesChange,
 };
 
-let socket = null;
+let socket: SocketIOClient.Socket;
 
 function vote(
     topicId: string,

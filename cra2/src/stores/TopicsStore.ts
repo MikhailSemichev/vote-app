@@ -1,5 +1,6 @@
 import { observable, action, runInAction } from 'mobx';
 
+import { stableSort } from '../utils/utils';
 import { topicsApi } from '../api';
 import { ITopic } from '../types/interfaces';
 
@@ -12,12 +13,14 @@ class TopicsStore {
         this.isLoadingTopics = true;
         this.topics = [];
         const topics = await topicsApi.getTopics();
-        topics.sort((t1, t2) => {
-            return t1.id < t2.id;
-        });
 
         runInAction(() => {
-            this.topics = topics;
+            this.topics = stableSort(topics, (t1, t2) => {
+                if (t1.id === t2.id) {
+                    return 0;
+                }
+                return t1.id < t2.id ? -1 : 1;
+            });
         });
     }
 
@@ -36,7 +39,7 @@ class TopicsStore {
         });
     }
 
-    addCandidates(topicId, newCandidates) {
+    addCandidates(topicId: string, newCandidates: string[]) {
         return topicsApi.addCandidates(topicId, newCandidates);
     }
 }
