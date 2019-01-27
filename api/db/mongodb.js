@@ -11,5 +11,7 @@ module.exports = {
 };
 
 function connect() {
-    return mongoose.connect(connectionString);
+    return mongoose.connect(connectionString, {
+        useNewUrlParser: true
+    });
 }

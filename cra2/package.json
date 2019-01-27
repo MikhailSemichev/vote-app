@@ -1,0 +1,47 @@
+{
+    "name": "vote-app",
+    "version": "0.1.0",
+    "private": true,
+    "dependencies": {
+        "@types/classnames": "^2.2.7",
+        "@types/jest": "23.3.13",
+        "@types/node": "10.12.18",
+        "@types/react": "16.7.21",
+        "@types/react-dom": "16.0.11",
+        "@types/react-router-dom": "^4.3.1",
+        "@types/socket.io-client": "^1.4.32",
+        "axios": "^0.18.0",
+        "classnames": "^2.2.6",
+        "mobx": "^5.9.0",
+        "mobx-react": "^5.4.3",
+        "node-sass": "^4.11.0",
+        "react": "^16.7.0",
+        "react-dom": "^16.7.0",
+        "react-router-dom": "^4.3.1",
+        "react-scripts": "2.1.3",
+        "socket.io": "^2.2.0",
+        "socket.io-client": "^2.2.0",
+        "tslint": "^5.12.1",
+        "tslint-config-prettier": "^1.17.0",
+        "tslint-plugin-prettier": "^2.0.1",
+        "tslint-react": "^3.6.0",
+        "typescript": "3.2.4"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject",
+        "lint": "tslint -c tslint.json 'src/**/*.{ts,tsx}'"
+    },
+    "eslintConfig": {
+        "extends": "react-app"
+    },
+    "browserslist": [
+        ">0.2%",
+        "not dead",
+        "not ie <= 11",
+        "not op_mini all"
+    ],
+    "devDependencies": {}
+}

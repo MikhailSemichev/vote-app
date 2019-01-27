@@ -1,0 +1,130 @@
+html {
+    font-size: 62.5%;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Roboto, RobotoDraft, Helvetica, Arial, sans-serif;
+    background: rgb(237, 231, 246);
+    min-width: 30rem;
+    font-size: 2rem;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.app-page {
+    margin: 2rem auto;
+    width: 100%;
+    max-width: 80rem;
+    background: white;
+    box-shadow: 0 0 2px rgba(0,0,0,.12), 0 2px 4px rgba(0,0,0,.24);
+    padding: 4rem;
+}
+
+a {
+    color: rgb(0, 0, 238);
+    text-decoration: underline solid rgb(0, 0, 238);
+
+    &:visited {
+        color: rgb(85, 26, 139);
+        text-decoration: underline solid rgb(85, 26, 139);
+    }
+}
+
+
+input[type='text'] {
+    border: none;
+    display: block;
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,0.12); 
+    font-size: 2rem;
+    padding: 0.3rem 0;
+
+    &:focus {
+        border: none;
+        outline-color: transparent;
+        border-bottom: 2px solid #4285f4; 
+    }
+}
+
+textarea {
+    display: block;
+    width: 100%;
+    border: 1px solid rgba(0,0,0,0.12);
+    border-radius: 2px;
+    font-size: 2rem;
+    font-family: Arial, Helvetica, sans-serif;
+    padding: 0.3rem;
+
+    &:focus {
+        border: 2px solid #4285f4; 
+    }
+}
+
+h1 {
+    font-size: 3.4rem;
+    line-height: 135%;
+    margin: 0 0 1rem 0;
+    font-weight: 200;
+}
+
+p {
+    margin: 0;
+    font-size: 1.6rem;
+}
+
+button {
+    color: white;
+    background: #4285f4;
+    line-height: 2rem;
+    min-width: 8.8rem;
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 3px 1px -2px rgba(0,0,0,0.12), 0 1px 5px 0 rgba(0,0,0,0.2);
+    border: 0;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 1.4rem;
+    font-weight: 500;
+    outline: none;
+    overflow: hidden;
+    text-align: center;
+    text-transform: uppercase;
+    -webkit-tap-highlight-color: transparent;
+    padding: .8rem 1.6rem;
+
+    &:active {
+        box-shadow: 0 8px 10px 1px rgba(0,0,0,0.14), 0 3px 14px 2px rgba(0,0,0,0.12), 0 5px 5px -3px rgba(0,0,0,0.2);
+    }
+
+    &:disabled {
+        background-color: grey;
+    }
+}
+
+.fa {
+    font-size: 2.5rem;
+    height: 2.5rem;
+    width: 2.5rem;
+    color: #4285f4;
+}
+
+.ant-switch {
+    height: 3.6rem;
+    line-height: 3rem;
+
+    .ant-switch-inner {
+        padding: 0 1rem;
+        font-size: 2rem;
+    }
+
+    &::after {
+        top: 0.8rem;
+    }
+}  
+

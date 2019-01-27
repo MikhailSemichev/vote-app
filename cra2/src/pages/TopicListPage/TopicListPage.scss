@@ -1,0 +1,31 @@
+.topic-list-page {
+    .page-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(0,0,0,0.12);
+
+        h1 {
+            margin: 0;
+        }
+    }
+
+    .topic-item {
+        margin: 2rem 0;
+        display: flex;
+        
+        a {
+            margin-left: 2rem;
+        }
+
+        .topic-item-name {
+            flex: 1;
+            margin: 0;
+        }
+
+        .fa-times {
+            margin-top: -0.2rem;
+        }
+    }
+}
