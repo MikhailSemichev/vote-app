@@ -41,18 +41,16 @@ class VotePage extends Component {
         const topicId = this.getTopicId();
 
         this.closeSocket && this.closeSocket();
-        this.closeSocket = votesStore.onTopicVotesChange(topicId, (type, data) => {
-            if (type === ON_TOPIC_CHANGE) {
-                // Reload all topic information
-                this.loadTopic();
-            }
+        this.closeSocket = votesStore.onTopicChange(topicId, () => {
+            // Reload all topic information
+            this.loadTopic();
         });
 
         const topic = await topicsStore.getTopic(topicId);
 
         this.setState({
             topicId,
-            topic: topic && { ...topic }
+            topic: topic && { ...topic },
         });
     }
 
@@ -71,7 +69,7 @@ class VotePage extends Component {
                 return {
                     name: c.name,
                     isVoted: logins.includes(userInfo.login),
-                    logins
+                    logins,
                 };
             });
             candidatesInfo = stableSort(candidatesInfo, (c1, c2) => {
@@ -89,7 +87,7 @@ class VotePage extends Component {
                     prevVotesCount = c.logins.length;
                     return {
                         ...c,
-                        place
+                        place,
                     };
                 }
                 return c;
@@ -97,33 +95,53 @@ class VotePage extends Component {
         }
 
         return (
-            <div className='app-page vote-page'>
-                {topic && <div>
-                    <h1>{topic.name}</h1>
+            <div className="app-page vote-page">
+                {topic && (
                     <div>
-                        {candidatesInfo.map(c => (
-                            <div
-                                className={cn('candidate-item', { 'is-voted': c.isVoted })}
-                                key={c.name}>
+                        <h1>{topic.name}</h1>
+                        <div>
+                            {candidatesInfo.map(c => (
                                 <div
-                                    className='votes-count'>
-                                    <div
-                                        className={cn('count', { [`place-${c.place}`]: c.place })}
-                                        title={c.logins.join(' | ')}>
-                                        {c.logins.length}
+                                    className={cn('candidate-item', {
+                                        'is-voted': c.isVoted,
+                                    })}
+                                    key={c.name}
+                                >
+                                    <div className="votes-count">
+                                        <div
+                                            className={cn('count', {
+                                                [`place-${c.place}`]: c.place,
+                                            })}
+                                            title={c.logins.join(' | ')}
+                                        >
+                                            {c.logins.length}
+                                        </div>
                                     </div>
+                                    <div className="candidate-name">
+                                        {c.name}
+                                    </div>
+                                    {topic.isActive && (
+                                        <i
+                                            className={cn('fa', 'vote-btn', {
+                                                'fa-thumbs-o-up': !c.isVoted,
+                                                'fa-thumbs-up': c.isVoted,
+                                            })}
+                                            onClick={() =>
+                                                this.handleVote(
+                                                    c.name,
+                                                    !c.isVoted,
+                                                )
+                                            }
+                                        />
+                                    )}
                                 </div>
-                                <div className='candidate-name'>{c.name}</div>
-                                {topic.isActive &&
-                                    <i
-                                        className={cn('fa', 'vote-btn', { 'fa-thumbs-o-up': !c.isVoted, 'fa-thumbs-up': c.isVoted })}
-                                        onClick={() => this.handleVote(c.name, !c.isVoted)} />
-                                }
-                            </div>
-                        ))}
+                            ))}
+                        </div>
+                        {topic.isAllowAddCandidates && (
+                            <NewCandidate topic={topic} />
+                        )}
                     </div>
-                    {topic.isAllowAddCandidates && <NewCandidate topic={topic} />}
-                </div>}
+                )}
                 {!topic && <div>Loading...</div>}
             </div>
         );

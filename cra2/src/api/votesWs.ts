@@ -1,5 +1,6 @@
 import io from 'socket.io-client';
-import { SERVICE_URL, ON_VOTE, ON_TOPIC_CHANGE } from '../constants';
+import { SERVICE_URL, SOCKET_EVENTS } from '../constants';
+import { IVote, ITopic } from '../types/interfaces';
 
 export default {
     vote,
@@ -17,15 +18,19 @@ function vote(
     socket.emit('vote', { topicId, candidateName, login, isVote });
 }
 
-function onTopicVotesChange(topicId: string, onChange) {
+function onTopicVotesChange(
+    topicId: string,
+    onVote: (topicVotes: IVote[]) => void,
+    onTopicChange: (topic: ITopic) => void,
+) {
     socket = io(`${SERVICE_URL}/votes`, { query: `topicId=${topicId}` });
 
-    socket.on(ON_VOTE, topicVotes => {
-        onChange(ON_VOTE, topicVotes);
+    socket.on(SOCKET_EVENTS.ON_VOTE, (topicVotes: IVote[]) => {
+        onVote(topicVotes);
     });
 
-    socket.on(ON_TOPIC_CHANGE, topic => {
-        onChange(ON_TOPIC_CHANGE, topic);
+    socket.on(SOCKET_EVENTS.ON_TOPIC_CHANGE, (topic: ITopic) => {
+        onTopicChange(topic);
     });
 
     return () => socket.close();

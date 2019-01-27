@@ -3,11 +3,9 @@ import { observable, action, runInAction } from 'mobx';
 import { votesWs } from '../api';
 import loginStore from './LoginStore';
 import { SOCKET_EVENTS } from '../constants';
-import { IVote } from '../types/interfaces';
+import { IVote, ITopic } from '../types/interfaces';
 
 class VotesStore {
-    // TODO: !!!!!!!!!!
-    @observable isLoadingTopicVotes = false;
     @observable topicVotes: IVote[] = [];
 
     @action
@@ -21,22 +19,16 @@ class VotesStore {
     }
 
     @action
-    onTopicVotesChange(
-        topicId: string,
-        onChange: (type: SOCKET_EVENTS, votes: IVote[]) => void,
-    ) {
-        this.isLoadingTopicVotes = true;
+    onTopicChange(topicId: string, onTopicChange: (topic: ITopic) => void) {
         this.topicVotes = [];
         return votesWs.onTopicVotesChange(
             topicId,
-            (type: SOCKET_EVENTS, topicVotes: IVote[]) => {
-                if (type === SOCKET_EVENTS.ON_VOTE) {
-                    runInAction(() => {
-                        this.topicVotes = topicVotes;
-                    });
-                }
-                onChange(type, topicVotes);
+            (topicVotes: IVote[]) => {
+                runInAction(() => {
+                    this.topicVotes = topicVotes;
+                });
             },
+            onTopicChange,
         );
     }
 }
