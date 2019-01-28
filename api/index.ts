@@ -1,5 +1,5 @@
-const express = require('express');
-const http = require('http');
+import express from 'express';
+import http from 'http';
 
 const app = express();
 const server = http.createServer(app);
@@ -11,7 +11,6 @@ const cors = require('cors');
 const nocache = require('nocache');
 const errorMiddleware = require('./middleware/errorMiddleware');
 
-app.wrap = fn => (...args) => fn(...args).catch(args[2]);
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
@@ -23,7 +22,7 @@ mongodb.connect();
 
 app.use(express.static('www'));
 
-app.get('/test', (req, res) => {
+app.get('/test', (req: express.Request, res: express.Response) => {
     res.send('Vote App Api');
 });
 

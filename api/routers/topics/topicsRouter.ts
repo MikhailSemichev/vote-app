@@ -1,24 +1,28 @@
-const express = require('express');
-const topicsStore = require('./topicsStore');
-const admin = require('../../middleware/adminMiddleware');
-const Topic = require('./Topic');
+import express, { Application } from 'express';
 
-module.exports = app => {
+import topicsStore from './topicsStore';
+import admin from '../../middleware/adminMiddleware';
+import Topic from './Topic';
+
+import { wrap } from '../../utils/utils';
+import { ITopic } from './types';
+
+export default (app: Application) => {
     const topicsRouter = express.Router();
     app.use('/api/topics', topicsRouter);
 
-    topicsRouter.get('/', app.wrap(async (req, res) => {
+    topicsRouter.get('/', wrap(async (req, res) => {
         // const topics = await Topic.find();
         const topics = await topicsStore.getTopics();
         res.json(topics);
     }));
 
-    topicsRouter.get('/:topicId', app.wrap(async (req, res) => {
+    topicsRouter.get('/:topicId', wrap(async (req, res) => {
         const topic = await topicsStore.getTopic(req.params.topicId);
         res.json(topic);
     }));
 
-    topicsRouter.post('/', app.wrap(async (req, res) => {
+    topicsRouter.post('/', wrap(async (req, res) => {
         const err = validateTopic(req.body);
 
         if (err) {
@@ -31,7 +35,7 @@ module.exports = app => {
         res.status(201).send(topic);
     }));
 
-    topicsRouter.put('/', admin(), app.wrap(async (req, res) => {
+    topicsRouter.put('/', admin(), wrap(async (req, res) => {
         const err = validateTopic(req.body);
 
         if (err) {
@@ -44,7 +48,7 @@ module.exports = app => {
         res.status(200).send(topic);
     }));
 
-    topicsRouter.delete('/:topicId', admin(), app.wrap(async (req, res) => {
+    topicsRouter.delete('/:topicId', admin(), wrap(async (req, res) => {
         const { topicId } = req.params;
 
         await topicsStore.deleteTopic(topicId);
@@ -52,7 +56,7 @@ module.exports = app => {
         res.status(204).send('');
     }));
 
-    topicsRouter.post('/addCandidates', app.wrap(async (req, res) => {
+    topicsRouter.post('/addCandidates', wrap(async (req, res) => {
         const { topicId, newCandidates } = req.body;
 
         const isAllowAddCandidates = await topicsStore.addCandidates(topicId, newCandidates);
@@ -65,7 +69,7 @@ module.exports = app => {
         res.status(201).send('');
     }));
 
-    function validateTopic(topic) {
+    function validateTopic(topic: ITopic) {
         if (!topic.name) {
             return 'Name is required';
         }

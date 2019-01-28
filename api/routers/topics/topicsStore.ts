@@ -1,9 +1,12 @@
-const Topic = require('./Topic');
-const eventHub = require('../../utils/eventHub');
+import Topic from './Topic';
+import eventHub from '../../utils/eventHub';
 
-let cache = [];
+import { ITopicModel, ICandidate } from './types';
 
-module.exports = {
+let isLoaded: boolean = false;
+let cache: ITopicModel[] = [];
+
+export default {
     getTopics,
     getTopic,
     createTopic,
@@ -17,12 +20,12 @@ async function getTopics() {
     return cache;
 }
 
-async function getTopic(id) {
+async function getTopic(id: any) {
     await ensureTopicsInCache();
-    return cache.find(t => t.id === id);
+    return cache.find((t: ITopicModel) => t.id === id) || null;
 }
 
-async function createTopic(json) {
+async function createTopic(json: ITopicModel) {
     const topic = new Topic(json);
     await topic.save();
 
@@ -31,8 +34,12 @@ async function createTopic(json) {
     return topic;
 }
 
-async function updateTopic(json) {
+async function updateTopic(json: ITopicModel) {
     const topic = await getTopic(json.id);
+
+    if (topic === null) {
+        return;
+    }
 
     topic.name = json.name;
     topic.candidates = json.candidates;
@@ -45,8 +52,13 @@ async function updateTopic(json) {
     return topic;
 }
 
-async function deleteTopic(id) {
+async function deleteTopic(id: any) {
     const topic = await getTopic(id);
+
+    if (topic === null) {
+        return;
+    }
+
     await topic.remove();
 
     cache = cache.filter(t => t.id === id);
@@ -54,15 +66,19 @@ async function deleteTopic(id) {
     eventHub.emit('topic/delete', topic);
 }
 
-async function addCandidates(id, newCandidates) {
+async function addCandidates(id: any, newCandidates: string[]) {
     const topic = await getTopic(id);
+
+    if (topic === null) {
+        return;
+    }
 
     if (topic.isAllowAddCandidates) {
         topic.candidates = [
             ...topic.candidates,
             ...newCandidates
-                .filter(name => !topic.candidates.find(c => c.name === name))
-                .map(name => ({ name }))
+                .filter((name: string) => !topic.candidates.find((c: ICandidate) => c.name === name))
+                .map((name: string) => ({ name }))
         ];
         await topic.save();
 
@@ -74,9 +90,9 @@ async function addCandidates(id, newCandidates) {
 
 
 async function ensureTopicsInCache() {
-    if (!cache.isLoaded) {
+    if (!isLoaded) {
         // Read from MongoDB
         cache = await Topic.find();
-        cache.isLoaded = true;
+        isLoaded = true;
     }
 }

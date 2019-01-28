@@ -1,7 +1,9 @@
+import { Request, Response, NextFunction } from 'express';
+
 const { ADMIN_PASSWORD } = process.env;
 
 // middleware for doing admin permissions
-module.exports = () => (req, res, next) => {
+export default () => (req: Request , res: Response, next: NextFunction) => {
     // Only on production
     if (!ADMIN_PASSWORD || req.headers.admin_password === ADMIN_PASSWORD) {
         next();
