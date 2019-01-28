@@ -10,6 +10,7 @@
         "@types/react-dom": "16.0.11",
         "@types/react-router-dom": "^4.3.1",
         "@types/socket.io-client": "^1.4.32",
+        "antd": "^3.13.0",
         "axios": "^0.18.0",
         "classnames": "^2.2.6",
         "mobx": "^5.9.0",

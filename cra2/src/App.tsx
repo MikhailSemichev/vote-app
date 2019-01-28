@@ -10,6 +10,8 @@ import TopicListPage from './pages/TopicListPage/TopicListPage';
 import EditTopicPage from './pages/EditTopicPage/EditTopicPage';
 import VotePage from './pages/VotePage/VotePage';
 
+// tslint:disable-next-line
+import 'antd/dist/antd.css';
 import './App.scss';
 
 class App extends React.Component {

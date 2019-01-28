@@ -21,6 +21,7 @@ class TopicsStore {
                 }
                 return t1.id < t2.id ? -1 : 1;
             });
+            this.isLoadingTopics = false;
         });
     }
 

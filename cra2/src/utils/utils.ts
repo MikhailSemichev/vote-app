@@ -13,3 +13,9 @@ export function stableSort<T>(
 
     return stabilizedArray.map(el => el[0]);
 }
+
+export function uniqStrings(strings: string[]): string[] {
+    const uniq = new Set<string>();
+    strings.forEach(str => uniq.add(str));
+    return Array.from(uniq);
+}

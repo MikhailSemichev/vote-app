@@ -20,9 +20,8 @@ export default class TopicListPage extends Component {
     };
 
     handleDelete = (topic: ITopic) => {
-        // eslint-disable-next-line
         if (window.confirm(`Delete "${topic.name}"?`)) {
-            topicsStore.deleteTopic(topic.id);
+            topicsStore.deleteTopic(topic.id!);
         }
     };
 

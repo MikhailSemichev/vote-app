@@ -4,7 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { loginStore } from '../../stores';
 
 interface IProps {
-    component: React.ComponentClass;
+    component: React.ComponentClass<any>;
     exact?: boolean;
     path: string;
 }
