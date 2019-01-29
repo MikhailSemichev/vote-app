@@ -12,6 +12,8 @@ export interface ITopic {
     isAllowAddCandidates: boolean
 }
 
-export interface ITopicModel extends ITopic, Document {
+export interface ITopicModel extends ITopic, Document { }
 
+export interface ITopicSocket extends SocketIO.Socket {
+    topicId: string
 }

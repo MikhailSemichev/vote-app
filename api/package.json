@@ -4,12 +4,13 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "cross-env NODE_ENV=development nodemon --inspect=43499 index.js --debug-brk",
+        "start": "cross-env NODE_ENV=development nodemon --inspect=43499 dist/index.js --debug-brk",
         "prod": "cross-env NODE_ENV=production pm2 start index.js -i 4 && pm2 monit",
         "stop": "pm2 stop all",
         "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics",
         "start_gcp": "node index.js",
-        "start_cloud": "node index.js"
+        "start_cloud": "node index.js",
+        "dev": "tsc && npm start"
     },
     "author": "",
     "license": "ISC",
@@ -31,9 +32,11 @@
         "ws": "^3.3.3"
     },
     "devDependencies": {
+        "@types/cors": "^2.8.4",
         "@types/express": "^4.16.1",
         "@types/mongoose": "^5.3.10",
         "@types/node": "^10.12.18",
+        "@types/socket.io": "^2.1.2",
         "tslint": "^5.12.1",
         "typescript": "^3.2.4"
     }

@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
+import { IVoteModel } from '../../types/vote';
 
 const voteSchema = new mongoose.Schema({
     topicId: { type: String },
@@ -8,4 +9,4 @@ const voteSchema = new mongoose.Schema({
     collection: 'Votes'
 });
 
-module.exports = mongoose.model('Vote', voteSchema);
+export default mongoose.model<IVoteModel>('Vote', voteSchema);

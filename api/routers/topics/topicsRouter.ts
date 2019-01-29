@@ -5,7 +5,7 @@ import admin from '../../middleware/adminMiddleware';
 import Topic from './Topic';
 
 import { wrap } from '../../utils/utils';
-import { ITopic } from './types';
+import { ITopic } from '../../types/topic';
 
 export default (app: Application) => {
     const topicsRouter = express.Router();

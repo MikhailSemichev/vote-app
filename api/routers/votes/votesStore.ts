@@ -1,31 +1,34 @@
-const Vote = require('./Vote');
-const topicsStore = require('../topics/topicsStore');
+import Vote from './Vote';
+import topicsStore from '../topics/topicsStore';
 
-const cache = {};
+import { ITopicModel } from '../../types/topic';
+import { IVoteModel } from '../../types/vote';
 
-module.exports = {
+const cache: { [id: string] : IVoteModel[]; } = {};
+
+export default {
     getTopicVotes,
     vote,
     removeTopicVotes
 };
 
-async function getTopicVotes(topicId) {
+async function getTopicVotes(topicId: string): Promise<IVoteModel[]> {
     await ensureTopicVotesInCache(topicId);
     return cache[topicId];
 }
 
-async function vote(topicId, candidateName, login, isVote) {
-    const topicItem = await topicsStore.getTopic(topicId);
+async function vote(topicId: string, candidateName: string, login: string, isVote: boolean): Promise<IVoteModel[]> {
+    const topicItem: ITopicModel | null = await topicsStore.getTopic(topicId);
 
     await ensureTopicVotesInCache(topicId);
 
     const topicVotesCacheItems = cache[topicId];
 
-    if (!topicItem.isActive) { // check if the topic is active and allowed to count votes
+    if (!topicItem!.isActive) { // check if the topic is active and allowed to count votes
         return topicVotesCacheItems;
     }
 
-    let voteItem = topicVotesCacheItems.find(v => v.login === login && v.candidateName === candidateName);
+    let voteItem: IVoteModel | undefined = topicVotesCacheItems.find(v => v.login === login && v.candidateName === candidateName);
 
     if (isVote) {
         if (!voteItem) {
@@ -52,13 +55,13 @@ async function vote(topicId, candidateName, login, isVote) {
     return topicVotesCacheItems;
 }
 
-function removeTopicVotes(topicId) {
+async function removeTopicVotes(topicId: string): Promise<void> {
     delete cache[topicId];
-    return Vote.remove({ topicId });
+    await Vote.remove({ topicId });
 }
 
-async function ensureTopicVotesInCache(topicId) {
-    let topicVotes = cache[topicId];
+async function ensureTopicVotesInCache(topicId: string): Promise<void> {
+    let topicVotes: IVoteModel[] = cache[topicId];
 
     if (!topicVotes) {
         // Read from MongoDB

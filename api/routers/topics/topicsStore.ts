@@ -1,7 +1,7 @@
 import Topic from './Topic';
 import eventHub from '../../utils/eventHub';
 
-import { ITopicModel, ICandidate } from './types';
+import { ITopicModel, ICandidate } from '../../types/topic';
 
 let isLoaded: boolean = false;
 let cache: ITopicModel[] = [];
@@ -20,7 +20,7 @@ async function getTopics() {
     return cache;
 }
 
-async function getTopic(id: any) {
+async function getTopic(id: string): Promise<ITopicModel | null> {
     await ensureTopicsInCache();
     return cache.find((t: ITopicModel) => t.id === id) || null;
 }

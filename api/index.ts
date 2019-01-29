@@ -1,15 +1,19 @@
 import express from 'express';
 import http from 'http';
+import socketIo from 'socket.io';
+
+import bodyParser from 'body-parser';
+import cors from 'cors';
+import nocache from 'nocache';
+import errorMiddleware from './middleware/errorMiddleware';
+
+import initTopicRouter from './routers/topics/topicsRouter';
+import initVoteRouter from './routers/votes/votesWs';
 
 const app = express();
 const server = http.createServer(app);
 
 // Middleware
-
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const nocache = require('nocache');
-const errorMiddleware = require('./middleware/errorMiddleware');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -26,14 +30,12 @@ app.get('/test', (req: express.Request, res: express.Response) => {
     res.send('Vote App Api');
 });
 
-require('./routers/topics/topicsRouter')(app);
-// app.use('/api', require('./routers/topics/votesRouter'));
+initTopicRouter(app);
 
-const socketIo = require('socket.io');
 const io = socketIo();
 io.attach(server);
 
-require('./routers/votes/votesWs')(io);
+initVoteRouter(io);
 
 // error handling
 app.use(errorMiddleware());

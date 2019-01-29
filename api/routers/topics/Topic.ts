@@ -1,6 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-import { ITopicModel } from './types';
+import { ITopicModel } from '../../types/topic';
 
 const TopicSchema: Schema = new mongoose.Schema({
     name: { type: String },
