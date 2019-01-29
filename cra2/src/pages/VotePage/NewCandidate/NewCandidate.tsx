@@ -62,7 +62,7 @@ class NewCandidate extends Component<IProps> {
                     <div>
                         {!isAdding && (
                             <button onClick={this.handleAddingCandidate}>
-                                Add your candidate
+                                Add New Option
                             </button>
                         )}
                         {isAdding && (
