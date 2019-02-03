@@ -23,6 +23,10 @@ mongodb.connect();
 
 app.use(express.static('www'));
 
+app.get('/', (req, res) => {
+    res.send('Vote App Api - Prod 2 !!!');
+});
+
 app.get('/test', (req, res) => {
     res.send('Vote App Api');
 });
