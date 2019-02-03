@@ -5,7 +5,7 @@
     "main": "index.js",
     "scripts": {
         "prod2": "node index.js",
-        "start": "cross-env NODE_ENV=development nodemon --inspect=43499 index.js --debug-brk",
+        "start1": "cross-env NODE_ENV=development nodemon --inspect=43499 index.js --debug-brk",
         "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics",
         "start_heroku": "forever index.js"
     },
