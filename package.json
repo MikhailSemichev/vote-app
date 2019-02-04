@@ -4,7 +4,7 @@
     "description": "",
     "main": "api/index.js",
     "scripts": {
-        "prestart": "npm run build_web && npm run build_api",
+        "prestart": "npm run build_api",
         "build_web": "cd web && npm i && npm run build",
         "build_api": "cd api && npm i",
         "start": "cd api && npm run prod"
