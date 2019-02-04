@@ -6,8 +6,7 @@
     "scripts": {
         "prod": "node index.js",
         "dev": "cross-env NODE_ENV=development nodemon --inspect=43499 index.js --debug-brk",
-        "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics",
-        "start_heroku": "forever index.js"
+        "loadtest": "loadtest -t 20 -c 200 http://localhost:3333/api/topics"
     },
     "author": "",
     "license": "ISC",

@@ -9,3 +9,8 @@ mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.di
 mobile/android/app/build/
 mobile/android/.gradle/
 mobile/android/local.properties
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

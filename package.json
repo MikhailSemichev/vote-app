@@ -3,16 +3,9 @@
     "version": "1.0.0",
     "description": "",
     "main": "api/index.js",
-    "engines": {
-        "node": "9.3.0"
-    },
     "scripts": {
-        "i": "cd web && npm i && cd ../api && npm i",
-        "start": "concurrent \"cd web && npm start\" \"cd api && npm start\"",
-        "----heroku-scripts----": "",
-        "postinstall": "cross-env SERVICE_URL=https://va0.herokuapp.com npm run build_web && node copy-build.js",
-        "build_web": "cd web && npm i && npm run build",
-        "heroku": "cd api && npm i && npm run start_heroku"
+        "prestart": "cd web && npm i && npm run build && cd ../api && npm i",
+        "prod": "cd api && npm run prod"
     },
     "repository": {
         "type": "git",
@@ -25,9 +18,7 @@
     },
     "homepage": "https://github.com/MikhailSemichev/vote-app#readme",
     "dependencies": {
-        "concurrently": "^4.1.0",
         "cross-env": "^5.2.0",
-        "fs-extra": "^7.0.1",
-        "mobx-react": "^5.4.3"
+        "fs-extra": "^7.0.1"
     }
 }
