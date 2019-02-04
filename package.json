@@ -5,7 +5,7 @@
     "main": "api/index.js",
     "scripts": {
         "prestart": "cd web && npm i && npm run build && cd ../api && npm i",
-        "prod": "cd api && npm run prod"
+        "start": "cd api && npm run prod"
     },
     "repository": {
         "type": "git",
