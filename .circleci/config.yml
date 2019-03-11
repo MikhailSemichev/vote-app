@@ -1,0 +1,44 @@
+version: 2
+jobs:
+  # Job for building and deploying to GCP (production)
+  deploy-gcp:
+    environment:
+      GCLOUD_PROJECT: vote-app-1
+      SERVICE_VERSION: 1
+    docker:
+    - image: google/cloud-sdk
+    steps:
+    # Checkout project sources
+    - checkout
+    # Install NodeJS - latest 10.x.x version
+    - run: curl -sL https://deb.nodesource.com/setup_10.x | bash -
+    - run: apt-get install -y nodejs
+    # Install helper packages
+    - run: npm install
+    # Build web application
+    - run: npm run build_web
+    # Copy web application
+    - run: npm run copy_web
+    # Build service
+    - run: npm run build_api
+    # Retrieve secrets from the CircleCI environment
+    - run: echo $GCLOUD_SERVICE_KEY | base64 -di > ${HOME}/gcloud-service-key.json
+    # Authenticate gcloud
+    - run: gcloud auth activate-service-account --key-file ${HOME}/gcloud-service-key.json
+    # Replace <your-project-id>
+    - run: gcloud config set project $GCLOUD_PROJECT
+    # Test
+    - run: gcloud services list
+    # Run deploy script
+    - run: gcloud -q app deploy app.yaml --promote --version=$SERVICE_VERSION
+               
+workflows:
+  version: 2
+  # Deploy workflow
+  deploy:
+    jobs:
+      - deploy-gcp:
+          filters:
+            branches:
+              only:
+                - master

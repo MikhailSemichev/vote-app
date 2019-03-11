@@ -3,9 +3,13 @@ api/node_modules/
 db/votedb/
 .idea/
 node_modules/
-api/www/
 mobile/android/app/build/tmp/
 mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml
 mobile/android/app/build/
 mobile/android/.gradle/
 mobile/android/local.properties
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml
