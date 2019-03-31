@@ -1,8 +1,8 @@
-db/node_modules/
-api/node_modules/
+db/node_modules
+api/node_modules
 db/votedb/
 .idea/
-node_modules/
+node_modules
 api/www/
 mobile/android/app/build/tmp/
 mobile/android/app/build/intermediates/incremental/mergeDebugResources/merged.dir/values-v18/values-v18.xml
