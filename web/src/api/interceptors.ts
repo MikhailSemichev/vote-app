@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { SERVICE_URL } from '../constants';
+import { REACT_APP_SERVICE_URL } from '../constants';
 import { loginStore } from '../stores';
 
-axios.defaults.baseURL = `${SERVICE_URL}/api`;
+axios.defaults.baseURL = `${REACT_APP_SERVICE_URL}/api`;
 
 axios.interceptors.request.use(
     conf => {

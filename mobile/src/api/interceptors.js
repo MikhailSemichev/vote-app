@@ -1,7 +1,7 @@
 import axios from 'axios';
 import config from '../../config';
 
-axios.defaults.baseURL = `${config.SERVICE_URL}/api`;
+axios.defaults.baseURL = `${config.REACT_APP_SERVICE_URL}/api`;
 
 axios.interceptors.request.use(
     conf => {

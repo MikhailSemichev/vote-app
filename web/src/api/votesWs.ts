@@ -1,5 +1,5 @@
 import io from 'socket.io-client';
-import { SERVICE_URL, SOCKET_EVENTS } from '../constants';
+import { REACT_APP_SERVICE_URL, SOCKET_EVENTS } from '../constants';
 import { IVote, ITopic } from '../types/interfaces';
 
 export default {
@@ -23,7 +23,7 @@ function onTopicVotesChange(
     onVote: (topicVotes: IVote[]) => void,
     onTopicChange: (topic: ITopic) => void,
 ) {
-    socket = io(`${SERVICE_URL}/votes`, { query: `topicId=${topicId}` });
+    socket = io(`${REACT_APP_SERVICE_URL}/votes`, { query: `topicId=${topicId}` });
 
     socket.on(SOCKET_EVENTS.ON_VOTE, (topicVotes: IVote[]) => {
         onVote(topicVotes);

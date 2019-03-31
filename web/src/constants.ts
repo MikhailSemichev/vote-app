@@ -1,5 +1,5 @@
-export const SERVICE_URL = process.env.SERVICE_URL
-    ? process.env.SERVICE_URL.trim() // PRODUCTION MODE
+export const REACT_APP_SERVICE_URL = process.env.REACT_APP_SERVICE_URL
+    ? process.env.REACT_APP_SERVICE_URL.trim() // PRODUCTION MODE
     : 'http://localhost:3333'; // DEVELOPMENT MODE
 
 export enum SOCKET_EVENTS {

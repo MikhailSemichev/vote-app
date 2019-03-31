@@ -24,7 +24,7 @@ mongodb.connect();
 // app.use(express.static('www'));
 
 app.get('/', (req, res) => {
-    res.send(`Vote App Api - Prod 2 !!! ${process.env.XXX_ENV}`);
+    res.send('Vote App Api - Prod');
 });
 
 app.get('/test', (req, res) => {
